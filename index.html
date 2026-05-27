@@ -5,11 +5,6 @@
   <title>Party-Abenteuer in der Deutschstunde</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Schönere Schriftart von Google Fonts: Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg: #f3f5fb;
@@ -30,7 +25,7 @@
 
     body {
       margin: 0;
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
       background: radial-gradient(circle at top left, #f8edeb, #f3f5fb 40%, #e0fbfc);
       color: var(--text-main);
       min-height: 100vh;
@@ -334,7 +329,7 @@
       scene: "intro",
       time: "Morgen",
       // Vorlieben herausgefunden?
-      // (getauscht: Evan = nur Gemüse, Naksh = nichts Saures)
+      // Jetzt: Alijah nur Gemüse, Naksh nichts Saures, Evan scharf, Jakub Schokolade
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -451,7 +446,7 @@
             message = "Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
             break;
           case "essen":
-            message = "Hannah: Denk an alle: etwas Scharfes, etwas ohne Fleisch, keine sauren Sachen für Naksh und Schokolade für Jakub.";
+            message = "Hannah: Denk an alle: etwas Scharfes für Evan, Gemüse ohne Fleisch für Alijah, keine sauren Sachen für Naksh und Schokolade für Jakub.";
             break;
           case "deko":
             message = "Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
@@ -569,13 +564,13 @@
         "damit später jeder etwas Leckeres auf der Party bekommt.\n\n";
 
       if (!state.prefsKnown.Alijah) {
-        text += "Alijah sitzt neben dem Fenster und isst ein kleines Stück Pizza.\n";
+        text += "Alijah sitzt neben dem Fenster und knabbert an Karottensticks.\n";
       }
       if (!state.prefsKnown.Naksh) {
         text += "Naksh schaut aus dem Fenster und trinkt einen Saft.\n";
       }
       if (!state.prefsKnown.Evan) {
-        text += "Evan liest ein Buch über Gemüse und Pflanzen.\n";
+        text += "Evan liest ein Buch über scharfe Rezepte.\n";
       }
       if (!state.prefsKnown.Jakub) {
         text += "Jakub hat einen Schokoriegel im Federmäppchen versteckt.\n";
@@ -589,9 +584,9 @@
           state.prefsKnown.Alijah = true;
           storyTitleEl.textContent = "Gespräch mit Alijah";
           storyEl.textContent =
-            "Du: \"Alijah, was magst du gern auf einer Party?\"\n" +
-            "Alijah: \"Ich mag Essen, das schön scharf ist! Chips mit Chili oder scharfe Soße sind super.\"\n\n" +
-            "Du notierst: Alijah mag scharf.";
+            "Du: \"Alijah, was isst du gern auf einer Party?\"\n" +
+            "Alijah: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. Kein Fleisch für mich!\"\n\n" +
+            "Du notierst: Alijah isst nur Gemüse.";
           clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
@@ -621,9 +616,8 @@
           storyTitleEl.textContent = "Gespräch mit Evan";
           storyEl.textContent =
             "Du: \"Evan, was soll es auf der Party geben?\"\n" +
-            "Evan: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. " +
-            "Kein Fleisch für mich!\"\n\n" +
-            "Du notierst: Evan isst nur Gemüse.";
+            "Evan: \"Ich mag Essen, das schön scharf ist! Chips mit Chili oder scharfe Soße sind super.\"\n\n" +
+            "Du notierst: Evan mag scharf.";
           clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
@@ -660,9 +654,9 @@
       storyEl.textContent =
         "Große Pause – Im Supermarkt neben der Schule.\n\n" +
         "Du gehst mit einer kleinen Gruppe in den Supermarkt. Du erinnerst dich an die Vorlieben:\n" +
-        "- Alijah mag scharf.\n" +
+        "- Alijah isst nur Gemüse.\n" +
         "- Naksh mag nichts Saures.\n" +
-        "- Evan isst nur Gemüse.\n" +
+        "- Evan mag scharf.\n" +
         "- Jakub mag Schokolade.\n\n" +
         "Du siehst verschiedene Sachen im Regal:";
 
@@ -698,13 +692,13 @@
     }
 
     function checkSnacksForEveryone() {
-      // Alijah: braucht etwas Scharfes
-      let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
-      // Evan: nur Gemüse
-      let okEvan = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+      // Alijah: nur Gemüse
+      let okAlijah = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+      // Evan: scharf
+      let okEvan = state.snacks.some(s => s.includes("Chili") || s.toLowerCase().includes("scharf"));
       // Naksh: nichts Saures
       let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
-      // Jakub: etwas mit Schokolade
+      // Jakub: Schokolade
       let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
 
       return okAlijah && okEvan && !okNakshBad && okJakub;
@@ -913,22 +907,22 @@
       } else if (checkSnacksForEveryone()) {
         text +=
           "Beim Essen hast du gut aufgepasst:\n" +
-          "- Für Alijah gibt es etwas Scharfes.\n" +
+          "- Für Alijah gibt es genug Gemüse.\n" +
           "- Für Naksh gibt es nichts Saures.\n" +
-          "- Für Evan gibt es genug Gemüse.\n" +
+          "- Für Evan gibt es etwas Scharfes.\n" +
           "- Für Jakub gibt es Schokolade.\n\n" +
           "Alle sind zufrieden und bedanken sich bei dir.\n\n";
       } else {
         text +=
           "Beim Essen ist nicht alles perfekt. Jemand ist nicht ganz zufrieden:\n";
         const probleme = [];
-        let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
-        let okEvan = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+        let okAlijah = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+        let okEvan = state.snacks.some(s => s.includes("Chili") || s.toLowerCase().includes("scharf"));
         let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
         let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
 
-        if (!okAlijah) probleme.push("Alijah – es gibt nichts Scharfes.");
-        if (!okEvan) probleme.push("Evan – es gibt zu wenig Gemüse.");
+        if (!okAlijah) probleme.push("Alijah – es gibt zu wenig Gemüse.");
+        if (!okEvan) probleme.push("Evan – es gibt nichts Scharfes.");
         if (okNakshBad) probleme.push("Naksh – es gibt etwas Saures.");
         if (!okJakub) probleme.push("Jakub – es gibt nichts mit Schokolade.");
 
@@ -943,7 +937,7 @@
         "Am Ende der Stunde spricht Hannah mit dir über die Planung.\n" +
         "\"Du hast " + score + " von 5 wichtigen Punkten gut erledigt. " +
         "Du bekommst die Note " + grade.noteNumber + " (" + grade.noteText + ") für deine Partyplanung.\"\n\n" +
-        "Sie lächelt: \"Du hast heute viel wiederholt: Freunde beschreiben, Zimmer und Möbel, Hausarbeit " +
+        "Sie lächelt: \"Du hast in diesem Jahr viel gelernt: Freunde beschreiben, Zimmer und Möbel, Hausarbeit " +
         "und natürlich Essen und Trinken.\"";
 
       storyEl.textContent = text;
