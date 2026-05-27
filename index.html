@@ -315,11 +315,11 @@
         </section>
 
         <section id="hannah-card">
-          <div id="hannah-title">👩‍🏫 Frau Hannah – deine Lehrerin</div>
+          <div id="hannah-title">👩‍🏫 Hannah – deine Lehrerin</div>
           <div id="hannah-container">
-            Wenn du unsicher bist, kannst du dir hier Tipps von Frau Hannah holen.
+            Wenn du unsicher bist, kannst du dir hier Tipps von Hannah holen.
           </div>
-          <button id="hannah-button" type="button">Tipp von Frau Hannah</button>
+          <button id="hannah-button" type="button">Tipp von Hannah</button>
         </section>
       </aside>
     </div>
@@ -334,7 +334,7 @@
       scene: "intro",
       time: "Morgen",
       // Vorlieben herausgefunden?
-      // (jetzt getauscht: Evan = nur Gemüse, Naksh = nichts Saures)
+      // (getauscht: Evan = nur Gemüse, Naksh = nichts Saures)
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -438,35 +438,35 @@
       let message = "";
 
       if (state.finished) {
-        message = "Frau Hannah: Die Party läuft schon! Überlege, was gut geklappt hat und was du beim nächsten Mal besser planen kannst.";
+        message = "Hannah: Die Party läuft schon! Überlege, was gut geklappt hat und was du beim nächsten Mal besser planen kannst.";
       } else {
         switch (state.scene) {
           case "intro":
-            message = "Frau Hannah: Heute ist ein besonderer Tag. Am Ende der Stunde feiern wir – plane gut und denk an alle.";
+            message = "Hannah: Heute ist ein besonderer Tag. Am Ende der Stunde feiern wir – plane gut und denk an alle.";
             break;
           case "flur":
-            message = "Frau Hannah: Sprich zuerst mit deinen Freunden. Sie haben unterschiedliche Vorlieben.";
+            message = "Hannah: Sprich zuerst mit deinen Freunden. Sie haben unterschiedliche Vorlieben.";
             break;
           case "prefs":
-            message = "Frau Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
+            message = "Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
             break;
           case "essen":
-            message = "Frau Hannah: Denk an alle: etwas Scharfes, etwas ohne Fleisch, keine sauren Sachen für Naksh und Schokolade für Jakub.";
+            message = "Hannah: Denk an alle: etwas Scharfes, etwas ohne Fleisch, keine sauren Sachen für Naksh und Schokolade für Jakub.";
             break;
           case "deko":
-            message = "Frau Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
+            message = "Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
             break;
           case "raumwahl":
-            message = "Frau Hannah: Wichtig sind genug Stühle, ein Tisch und Platz, damit alle bequem feiern können.";
+            message = "Hannah: Wichtig sind genug Stühle, ein Tisch und Platz, damit alle bequem feiern können.";
             break;
           case "putzen":
-            message = "Frau Hannah: Überlege, welche Hausarbeiten zum Aufräumen gehören – dann ist der Raum bereit für die Party.";
+            message = "Hannah: Überlege, welche Hausarbeiten zum Aufräumen gehören – dann ist der Raum bereit für die Party.";
             break;
           case "finale":
-            message = "Frau Hannah: Schau dir an, ob alle etwas Passendes zu essen haben, der Raum passt und ordentlich ist.";
+            message = "Hannah: Schau dir an, ob alle etwas Passendes zu essen haben, der Raum passt und ordentlich ist.";
             break;
           default:
-            message = "Frau Hannah: Lies die Optionen in Ruhe. Wähle, was für die Party am sinnvollsten ist.";
+            message = "Hannah: Lies die Optionen in Ruhe. Wähle, was für die Party am sinnvollsten ist.";
         }
       }
 
@@ -502,8 +502,8 @@
           storyTitleEl.textContent = "In der Schule – im Flur";
           storyEl.textContent =
             "Du stehst im Flur vor deinem Klassenzimmer. Viele Schülerinnen und Schüler laufen vorbei. " +
-            "Deine Deutschlehrerin, Frau Hannah, geht an dir vorbei und lächelt.\n\n" +
-            "Frau Hannah: \"Vergiss die Party heute nicht! Plane alles gut, damit alle Spaß haben.\"\n\n" +
+            "Deine Deutschlehrerin Hannah geht an dir vorbei und lächelt.\n\n" +
+            "Hannah: \"Vergiss die Party heute nicht! Plane alles gut, damit alle Spaß haben.\"\n\n" +
             "Du erinnerst dich an die Themen dieses Schuljahres: Kennenlernen, Familie und Freunde, Schule, Zu Hause, " +
             "Zimmer und Möbel, Hausarbeit, Beschreibungen und natürlich Essen und Trinken.\n\n" +
             "Deine Freunde Alijah, Naksh, Evan und Jakub sind schon im Klassenraum.";
@@ -511,18 +511,18 @@
             state.scene = "prefs";
             renderScene();
           });
-          addChoice("Kurz mit Frau Hannah sprechen", () => {
+          addChoice("Kurz mit Hannah sprechen", () => {
             state.scene = "lehrerin";
             renderScene();
           });
           break;
 
         case "lehrerin":
-          storyTitleEl.textContent = "Gespräch mit Frau Hannah";
+          storyTitleEl.textContent = "Gespräch mit Hannah";
           storyEl.textContent =
-            "Du gehst zu Frau Hannah.\n\n" +
-            "Du: \"Frau Hannah, haben Sie noch Tipps für die Party?\"\n" +
-            "Frau Hannah: \"Frag deine Freunde nach ihren Vorlieben und achte darauf, dass es für alle etwas gibt. " +
+            "Du gehst zu Hannah.\n\n" +
+            "Du: \"Hannah, hast du noch Tipps für die Party?\"\n" +
+            "Hannah: \"Frag deine Freunde nach ihren Vorlieben und achte darauf, dass es für alle etwas gibt. " +
             "Wenn du unsicher bist, kannst du später meine Tipps lesen.\"\n\n" +
             "Du nickst. Das hilft dir bei der Planung.";
           addChoice("Zurück in den Flur gehen", () => {
@@ -829,7 +829,7 @@
       addChoice("Müll auf den Boden werfen", () => {
         storyTitleEl.textContent = "Kein guter Plan";
         storyEl.textContent =
-          "Du wirfst Papier auf den Boden. Frau Hannah schaut zufällig herein und schüttelt den Kopf:\n\n" +
+          "Du wirfst Papier auf den Boden. Hannah schaut zufällig herein und schüttelt den Kopf:\n\n" +
           "\"So wird das nichts. Sammle den Müll lieber wieder ein. Der Raum soll für die Party schön aussehen.\"\n\n" +
           "Du sammelst den Müll wieder ein.";
         clearChoices();
@@ -940,7 +940,7 @@
       const grade = gradeFromScore(score);
 
       text +=
-        "Am Ende der Stunde spricht Frau Hannah mit dir über die Planung.\n" +
+        "Am Ende der Stunde spricht Hannah mit dir über die Planung.\n" +
         "\"Du hast " + score + " von 5 wichtigen Punkten gut erledigt. " +
         "Du bekommst die Note " + grade.noteNumber + " (" + grade.noteText + ") für deine Partyplanung.\"\n\n" +
         "Sie lächelt: \"Du hast heute viel wiederholt: Freunde beschreiben, Zimmer und Möbel, Hausarbeit " +
@@ -965,7 +965,7 @@
       state.roomOk = false;
       state.cleaned = false;
       state.finished = false;
-      hannahEl.textContent = "Wenn du unsicher bist, kannst du dir hier Tipps von Frau Hannah holen.";
+      hannahEl.textContent = "Wenn du unsicher bist, kannst du dir hier Tipps von Hannah holen.";
     }
 
     // Spiel starten
