@@ -3,172 +3,339 @@
 <head>
   <meta charset="UTF-8">
   <title>Party-Abenteuer in der Deutschstunde</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    :root {
+      --bg: #f3f5fb;
+      --primary: #264653;
+      --primary-light: #2a9d8f;
+      --accent: #e9c46a;
+      --danger: #e76f51;
+      --card-bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #555555;
+      --radius: 10px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background: #f0f2f5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #f8edeb, #f3f5fb 40%, #e0fbfc);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-      background: #003366;
+      padding: 16px;
+      text-align: center;
       color: white;
-      padding: 10px 20px;
+      background: linear-gradient(120deg, var(--primary), var(--primary-light));
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    header p {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
     }
 
     main {
+      flex: 1;
       display: flex;
-      flex-wrap: wrap;
-      padding: 10px;
-      gap: 10px;
+      justify-content: center;
+      padding: 18px 12px 24px;
     }
 
-    #story-container {
-      flex: 2 1 360px;
-      background: white;
-      border-radius: 6px;
-      padding: 10px 15px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      min-height: 300px;
+    .layout {
+      width: 100%;
+      max-width: 1080px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 820px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+    }
+
+    #story-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 340px;
+    }
+
+    #story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    #story-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    #time-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #edf6f9;
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    #time-pill span {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    #progress {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    #story-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--primary);
     }
 
     #story {
       white-space: pre-line;
-      margin-bottom: 10px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      font-size: 0.98rem;
     }
 
     #choices {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
+      margin-top: auto;
     }
 
-    #choices button {
-      padding: 6px 10px;
-      border-radius: 4px;
-      border: 1px solid #003366;
-      background: #e6f0ff;
+    .choice-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-light);
+      background: #f0fdf9;
+      color: var(--primary);
       cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.15s ease;
     }
 
-    #choices button:hover {
-      background: #d0e2ff;
+    .choice-btn:hover {
+      background: var(--primary-light);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .choice-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
     }
 
     #sidebar {
-      flex: 1 1 220px;
-      background: #ffffff;
-      border-radius: 6px;
-      padding: 10px 15px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     #sidebar h2 {
-      font-size: 1.1rem;
-      margin-top: 0;
+      font-size: 1rem;
+      margin: 0 0 6px 0;
+      color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 6px 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     #status-list {
       list-style: none;
-      padding-left: 15px;
+      padding-left: 0;
+      margin: 0;
+      font-size: 0.9rem;
     }
 
-    #status-list li::before {
-      content: "• ";
-      color: #003366;
+    #status-list li {
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #status-list li span.bullet {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    #status-list li.good span.bullet {
+      background: #2ecc71;
+    }
+
+    #status-list li.bad span.bullet {
+      background: var(--danger);
+    }
+
+    #status-list li.neutral span.bullet {
+      background: #bdc3c7;
+    }
+
+    #status-list li strong {
+      font-weight: 600;
+    }
+
+    #hannah-card {
+      background: #fff7e6;
+      border-radius: var(--radius);
+      border-left: 5px solid var(--accent);
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+
+    #hannah-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #b67100;
     }
 
     #hannah-container {
-      margin-top: 10px;
-      background: #fff7e6;
-      border-left: 4px solid #ff9900;
-      padding: 8px;
-      border-radius: 4px;
-      font-size: 0.9rem;
       min-height: 40px;
     }
 
     #hannah-button {
       margin-top: 6px;
-      padding: 5px 10px;
-      border-radius: 4px;
-      border: 1px solid #ff9900;
-      background: #ffe0b3;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #4a2800;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.15s ease, transform 0.1s ease;
     }
 
     #hannah-button:hover {
-      background: #ffd199;
+      background: #f4a261;
+      transform: translateY(-1px);
     }
 
-    .label {
-      font-weight: bold;
-    }
-
-    .good {
-      color: #006600;
-      font-weight: bold;
-    }
-
-    .bad {
-      color: #990000;
-      font-weight: bold;
+    #hannah-button:active {
+      transform: translateY(0);
     }
 
     footer {
-      margin-top: 10px;
-      padding: 10px 20px;
+      text-align: center;
+      padding: 10px;
       font-size: 0.8rem;
-      color: #555;
+      color: var(--text-muted);
+    }
+
+    .good {
+      color: #217a38;
+      font-weight: 600;
+    }
+
+    .bad {
+      color: var(--danger);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Party-Abenteuer in der Deutschstunde</h1>
+    <p>Interaktive Geschichte – Wiederholung: Kennenlernen, Freunde, Schule, Zu Hause, Beschreibungen, Essen &amp; Trinken</p>
   </header>
 
   <main>
-    <section id="story-container">
-      <div id="story"></div>
-      <div id="choices"></div>
-    </section>
+    <div class="layout">
+      <!-- STORY -->
+      <section id="story-card" class="card">
+        <div id="story-header">
+          <div id="story-header-left">
+            <div id="time-pill">
+              <span>🕒</span>
+              <span id="time-display">Morgen</span>
+            </div>
+            <div id="progress">Tag der Party in der Schule</div>
+          </div>
+          <div id="story-title">Dein Tag beginnt …</div>
+        </div>
 
-    <aside id="sidebar">
-      <h2>Dein Tag</h2>
-      <p><span class="label">Zeit:</span> <span id="time-display">Morgen</span></p>
+        <div id="story"></div>
+        <div id="choices"></div>
+      </section>
 
-      <h3>Party-Checkliste</h3>
-      <ul id="status-list">
-        <!-- wird per JavaScript gefüllt -->
-      </ul>
+      <!-- SIDEBAR -->
+      <aside id="sidebar">
+        <section class="card">
+          <h2>Party-Checkliste</h2>
+          <ul id="status-list"></ul>
+        </section>
 
-      <h3>Hinweise</h3>
-      <div id="hannah-container">
-        Hannah, die gute Fee, wartet auf deinen Ruf …
-      </div>
-      <button id="hannah-button" type="button">Hannah, hilf mir!</button>
-    </aside>
+        <section id="hannah-card">
+          <div id="hannah-title">✨ Hannah, die gute Fee</div>
+          <div id="hannah-container">
+            Hannah wartet auf deinen Ruf …
+          </div>
+          <button id="hannah-button" type="button">Hannah, hilf mir!</button>
+        </section>
+      </aside>
+    </div>
   </main>
 
   <footer>
-    Interaktives Textabenteuer (A2–B1): Themen Wiederholung – Kennenlernen, Familie & Freunde, Schule, Zu Hause, Beschreibungen, Essen & Trinken.
+    A2–B1 Textabenteuer für Deutschlernende – Entscheidungen treffen, Dialoge lesen, Wortschatz wiederholen.
   </footer>
 
   <script>
-    // Einfacher Spielzustand
     const state = {
       scene: "intro",
       time: "Morgen",
-      // Vorlieben herausgefunden?
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -191,6 +358,7 @@
     const statusListEl = document.getElementById("status-list");
     const hannahEl = document.getElementById("hannah-container");
     const hannahBtn = document.getElementById("hannah-button");
+    const storyTitleEl = document.getElementById("story-title");
 
     function updateTime() {
       timeEl.textContent = state.time;
@@ -199,39 +367,54 @@
     function updateStatus() {
       statusListEl.innerHTML = "";
 
-      const li1 = document.createElement("li");
-      li1.textContent = areAllPrefsKnown()
-        ? "Essensvorlieben: erledigt"
-        : "Essensvorlieben: noch nicht komplett";
-      if (areAllPrefsKnown()) li1.classList.add("good");
-      statusListEl.appendChild(li1);
+      function addStatus(text, type) {
+        const li = document.createElement("li");
+        li.classList.add(type || "neutral");
 
-      const li2 = document.createElement("li");
-      li2.textContent = state.snacks.length > 0
-        ? "Essen gekauft: " + state.snacks.join(", ")
-        : "Essen noch nicht gekauft";
-      statusListEl.appendChild(li2);
+        const bullet = document.createElement("span");
+        bullet.classList.add("bullet");
+        li.appendChild(bullet);
 
-      const li3 = document.createElement("li");
-      li3.textContent = state.deco.length > 0
-        ? "Deko: " + state.deco.join(", ")
-        : "Deko noch nicht gekauft";
-      statusListEl.appendChild(li3);
+        const span = document.createElement("span");
+        span.innerHTML = text;
+        li.appendChild(span);
 
-      const li4 = document.createElement("li");
-      if (state.room) {
-        li4.textContent = "Raum gewählt: " + state.room + (state.roomOk ? " (passt!)" : " (nicht ideal)");
-        if (state.roomOk) li4.classList.add("good");
-        else li4.classList.add("bad");
-      } else {
-        li4.textContent = "Klassenzimmer: noch nicht gewählt";
+        statusListEl.appendChild(li);
       }
-      statusListEl.appendChild(li4);
 
-      const li5 = document.createElement("li");
-      li5.textContent = state.cleaned ? "Zimmer ist sauber" : "Zimmer ist noch nicht sauber";
-      if (state.cleaned) li5.classList.add("good");
-      statusListEl.appendChild(li5);
+      addStatus(
+        areAllPrefsKnown()
+          ? "<strong>Essensvorlieben:</strong> erledigt"
+          : "<strong>Essensvorlieben:</strong> noch nicht komplett",
+        areAllPrefsKnown() ? "good" : "neutral"
+      );
+
+      if (state.snacks.length > 0) {
+        addStatus("<strong>Essen:</strong> " + state.snacks.join(", "), "good");
+      } else {
+        addStatus("<strong>Essen:</strong> noch nicht gekauft", "neutral");
+      }
+
+      if (state.deco.length > 0) {
+        addStatus("<strong>Deko:</strong> " + state.deco.join(" · "), "neutral");
+      } else {
+        addStatus("<strong>Deko:</strong> noch nicht gekauft", "neutral");
+      }
+
+      if (state.room) {
+        addStatus(
+          "<strong>Raum:</strong> " + state.room +
+          (state.roomOk ? " (passt 👍)" : " (nicht ideal)"),
+          state.roomOk ? "good" : "bad"
+        );
+      } else {
+        addStatus("<strong>Raum:</strong> noch nicht gewählt", "neutral");
+      }
+
+      addStatus(
+        "<strong>Aufräumen:</strong> " + (state.cleaned ? "Zimmer ist sauber" : "noch nicht erledigt"),
+        state.cleaned ? "good" : "neutral"
+      );
     }
 
     function clearChoices() {
@@ -241,6 +424,7 @@
     function addChoice(text, onClick) {
       const btn = document.createElement("button");
       btn.type = "button";
+      btn.className = "choice-btn";
       btn.textContent = text;
       btn.addEventListener("click", onClick);
       choicesEl.appendChild(btn);
@@ -258,43 +442,43 @@
       state.hannahVisits += 1;
 
       if (state.finished) {
-        message = "Hannah: Die Party läuft schon! Jetzt kannst du einfach mitfeiern. 🎉";
+        message = "Hannah: Die Party läuft schon! Jetzt kannst du einfach mitfeiern und beobachten, wer was isst.";
       } else {
         switch (state.scene) {
           case "intro":
-            message = "Hannah: Heute ist etwas Besonderes. Denk an die Deutschstunde am Ende des Tages!";
+            message = "Hannah: Heute ist ein besonderer Tag. Am Ende kommt die Deutschstunden-Party – denk daran!";
             break;
           case "flur":
-            message = "Hannah: Sprich zuerst mit deinen Freunden. Sie haben verschiedene Geschmäcker.";
+            message = "Hannah: Kennenlernen und Freunde – sprich zuerst mit deinen Klassenkameraden.";
             break;
           case "prefs":
-            message = "Hannah: Jeder mag etwas anderes. Schreib dir die Vorlieben gut auf!";
+            message = "Hannah: Jeder mag etwas anderes. Hör gut zu und merke dir die Vorlieben.";
             break;
           case "essen":
-            message = "Hannah: Du brauchst etwas Scharfes, etwas ohne Fleisch, nichts Saures für Evan und Schokolade für Jakub.";
+            message = "Hannah: Du brauchst Essen, das zu allen passt – scharf, Gemüse, nichts Saures für Evan und Schokolade für Jakub.";
             break;
           case "deko":
-            message = "Hannah: Welche Farben hat die deutsche Flagge? Schwarz, Rot und ...?";
+            message = "Hannah: Welche Farben hat die deutsche Flagge? Schwarz, Rot und …?";
             break;
           case "raumwahl":
-            message = "Hannah: Lies die Beschreibung genau. Du brauchst fünf Stühle und einen Tisch.";
+            message = "Hannah: Du brauchst fünf Stühle und einen Tisch. Lies die Beschreibungen genau.";
             break;
           case "putzen":
-            message = "Hannah: Denk an typische Hausarbeit: aufräumen, fegen, wischen …";
+            message = "Hannah: Hausarbeit-Wiederholung: aufräumen, fegen, wischen, Müll wegbringen.";
             break;
           case "finale":
-            message = "Hannah: Schau dir an, ob alle zufrieden sind – dann ist deine Planung super!";
+            message = "Hannah: Schau, ob alle zufrieden sind. Dann war deine Planung erfolgreich.";
             break;
           default:
-            message = "Hannah: Du machst das schon. Lies langsam und wähle gut.";
+            message = "Hannah: Lies in Ruhe und wähle die Antwort, die am besten passt.";
         }
       }
 
-      // Kleiner Streich: Einmal versteckt Hannah einen Snack-Namen
       if (!state.trickDone && state.snacks.length >= 2 && Math.random() < 0.4) {
         state.trickDone = true;
         const removed = state.snacks.pop();
-        message += " (Ups! Ich habe aus Versehen \"" + removed + "\" versteckt. Du kannst später noch einmal einkaufen gehen, wenn du willst.)";
+        message += " (Ups! Ich habe aus Versehen \"" + removed +
+                   "\" verschwinden lassen. Du kannst später noch einmal einkaufen gehen.)";
       }
 
       hannahEl.textContent = message;
@@ -309,13 +493,14 @@
 
       switch (state.scene) {
         case "intro":
+          storyTitleEl.textContent = "Zu Hause – der Tag beginnt";
           storyEl.textContent =
             "Guten Morgen!\n\n" +
             "Du wachst in deinem Zimmer auf. Das Zimmer ist klein, aber gemütlich. " +
             "Neben dem Fenster steht dein Schreibtisch. Auf dem Schreibtisch liegt dein Deutschheft. " +
             "Über dem Bett hängt ein Poster von deinen Freunden.\n\n" +
             "Heute ist ein besonderer Tag: In der letzten Deutschstunde soll es eine kleine Party geben. " +
-            "Du hast die Aufgabe, die Party zu planen. Es muss Essen geben, passende Deko und ein gutes Klassenzimmer.\n\n" +
+            "Du hast die Aufgabe, die Party zu planen. Es soll Essen geben, passende Deko und ein gutes Klassenzimmer.\n\n" +
             "Du nimmst deine Tasche, gehst aus dem Zimmer und fährst zur Schule.";
           addChoice("Zur Schule gehen", () => {
             state.scene = "flur";
@@ -325,24 +510,25 @@
           break;
 
         case "flur":
+          storyTitleEl.textContent = "In der Schule – im Flur";
           storyEl.textContent =
-            "In der Schule.\n\n" +
             "Du stehst im Flur vor deinem Klassenzimmer. Viele Schülerinnen und Schüler laufen vorbei. " +
             "Deine Deutschlehrerin sagt im Vorbeigehen: \"Vergiss die Party heute nicht! Plane alles gut.\"\n\n" +
-            "Du erinnerst dich an die Themen dieses Schuljahres: Kennenlernen, Familie und Freunde, Schule, Zimmer und Möbel, Hausarbeit, " +
-            "Beschreibungen und natürlich Essen und Trinken.\n\n" +
+            "Du erinnerst dich an die Themen dieses Schuljahres: Kennenlernen, Familie und Freunde, Schule, Zu Hause, " +
+            "Zimmer und Möbel, Hausarbeit, Beschreibungen und natürlich Essen und Trinken.\n\n" +
             "Deine Freunde Alijah, Naksh, Evan und Jakub sind schon im Klassenraum.";
           addChoice("Ins Klassenzimmer gehen und mit den Freunden sprechen", () => {
             state.scene = "prefs";
             renderScene();
           });
-          addChoice("Kurz zur Lehrerin gehen und nachfragen", () => {
+          addChoice("Kurz zur Lehrerin gehen und nach Tipps fragen", () => {
             state.scene = "lehrerin";
             renderScene();
           });
           break;
 
         case "lehrerin":
+          storyTitleEl.textContent = "Kurzes Gespräch mit der Lehrerin";
           storyEl.textContent =
             "Du gehst zur Lehrerin.\n\n" +
             "Du: \"Frau Müller, haben Sie noch Tipps für die Party?\"\n" +
@@ -380,13 +566,15 @@
           break;
 
         default:
+          storyTitleEl.textContent = "Fehler";
           storyEl.textContent = "Fehler: Unbekannte Szene.";
       }
     }
 
     function renderPrefsScene() {
+      storyTitleEl.textContent = "Im Klassenzimmer – Freunde befragen";
+
       let text =
-        "Im Klassenzimmer.\n\n" +
         "Du setzt dich zu deinen Freunden. Du möchtest ihre Essensvorlieben kennenlernen, " +
         "damit später jeder etwas Leckeres auf der Party bekommt.\n\n";
 
@@ -404,14 +592,17 @@
       }
 
       storyEl.textContent = text + "\nWen fragst du zuerst?";
+      clearChoices();
 
       if (!state.prefsKnown.Alijah) {
         addChoice("Mit Alijah sprechen", () => {
           state.prefsKnown.Alijah = true;
+          storyTitleEl.textContent = "Gespräch mit Alijah";
           storyEl.textContent =
             "Du: \"Alijah, was magst du gern auf einer Party?\"\n" +
             "Alijah: \"Ich mag Essen, das schön scharf ist! Chips mit Chili oder scharfe Soße sind super.\"\n\n" +
             "Du notierst: Alijah mag scharf.";
+          clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
           });
@@ -421,10 +612,12 @@
       if (!state.prefsKnown.Naksh) {
         addChoice("Mit Naksh sprechen", () => {
           state.prefsKnown.Naksh = true;
+          storyTitleEl.textContent = "Gespräch mit Naksh";
           storyEl.textContent =
             "Du: \"Naksh, was isst du gern?\"\n" +
             "Naksh: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. Kein Fleisch für mich!\"\n\n" +
             "Du notierst: Naksh mag nur Gemüse.";
+          clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
           });
@@ -434,11 +627,13 @@
       if (!state.prefsKnown.Evan) {
         addChoice("Mit Evan sprechen", () => {
           state.prefsKnown.Evan = true;
+          storyTitleEl.textContent = "Gespräch mit Evan";
           storyEl.textContent =
             "Du: \"Evan, was soll es auf der Party geben?\"\n" +
             "Evan: \"Bitte nichts Saures. Ich mag keine sauren Gummibärchen und keinen sauren Saft. " +
             "Süß oder mild ist okay.\"\n\n" +
             "Du notierst: Evan mag nichts Saures.";
+          clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
           });
@@ -448,10 +643,12 @@
       if (!state.prefsKnown.Jakub) {
         addChoice("Mit Jakub sprechen", () => {
           state.prefsKnown.Jakub = true;
+          storyTitleEl.textContent = "Gespräch mit Jakub";
           storyEl.textContent =
             "Du: \"Jakub, was ist dein Lieblingspartyessen?\"\n" +
             "Jakub: \"Schokolade! Schokokekse, Schokoriegel, Schokokuchen … Hauptsache Schokolade.\"\n\n" +
             "Du notierst: Jakub mag Schokolade.";
+          clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
           });
@@ -468,6 +665,7 @@
     }
 
     function renderEssenScene() {
+      storyTitleEl.textContent = "Im Supermarkt – Essen kaufen";
       storyEl.textContent =
         "Große Pause – Im Supermarkt neben der Schule.\n\n" +
         "Du gehst mit einer kleinen Gruppe in den Supermarkt. Du erinnerst dich an die Vorlieben:\n" +
@@ -475,7 +673,7 @@
         "- Naksh mag nur Gemüse.\n" +
         "- Evan mag nichts Saures.\n" +
         "- Jakub mag Schokolade.\n\n" +
-        "Du siehst verschiedene Sachen:";
+        "Du siehst verschiedene Sachen im Regal:";
 
       clearChoices();
 
@@ -484,7 +682,7 @@
         "Gemüse-Sticks mit Dip",
         "Saure Gummibärchen",
         "Schokokekse",
-        "Normaler Fruchtsaft (nicht sauer)",
+        "Fruchtsaft (nicht sauer)",
         "Salat mit Tomaten und Gurke",
         "Extra scharfe Soße",
         "Zitronenlimonade (sehr sauer)"
@@ -518,10 +716,11 @@
     }
 
     function renderDecoScene() {
+      storyTitleEl.textContent = "Dekogeschäft – Farben wählen";
       storyEl.textContent =
         "Du hast das Essen im Rucksack und gehst in ein kleines Dekogeschäft.\n\n" +
         "Du denkst an die Farben der deutschen Flagge. Du möchtest Girlanden und Luftballons in den richtigen Farben kaufen.\n\n" +
-        "Welche Farben wählst du?";
+        "Welche Farbkombination wählst du?";
 
       clearChoices();
 
@@ -533,7 +732,7 @@
       ];
 
       farbenSets.forEach(set => {
-        const text = "Deko in " + set.join(" - ");
+        const text = "Deko in " + set.join(" – ");
         addChoice(text, () => {
           state.deco = set;
           state.scene = "raumwahl";
@@ -550,6 +749,7 @@
     }
 
     function renderRaumwahlScene() {
+      storyTitleEl.textContent = "Schule – ein Raum für die Party";
       storyEl.textContent =
         "Nach dem Mittagessen suchst du ein gutes Klassenzimmer für die Party.\n\n" +
         "Du siehst drei offene Räume. Du erinnerst dich an Wörter für Möbel und Präpositionen und schaust genau hin:\n\n" +
@@ -599,6 +799,8 @@
     }
 
     function renderPutzenScene() {
+      storyTitleEl.textContent = "Aufräumen im Klassenzimmer";
+
       let text =
         "Du bist im gewählten Raum: " + (state.room || "kein Raum") + ".\n\n" +
         "Für die Party muss der Raum sauber sein. Du denkst an Hausarbeit: " +
@@ -609,102 +811,33 @@
       clearChoices();
 
       addChoice("Stühle und Tisch ordentlich hinstellen", () => {
+        storyTitleEl.textContent = "Stühle und Tisch ordnen";
         storyEl.textContent =
           "Du stellst alle Stühle ordentlich an den Tisch. Der Raum sieht schon viel besser aus.";
+        clearChoices();
         addChoice("Weiter", () => {
           renderPutzenScene();
         });
       });
 
       addChoice("Den Boden fegen", () => {
+        storyTitleEl.textContent = "Den Boden fegen";
         storyEl.textContent =
           "Du nimmst einen Besen und fegst den Boden. Jetzt liegt kein Papier mehr auf dem Boden.";
+        clearChoices();
         addChoice("Weiter", () => {
           renderPutzenScene();
         });
       });
 
       addChoice("Die Tafel sauber wischen", () => {
+        storyTitleEl.textContent = "Die Tafel wischen";
         storyEl.textContent =
           "Du wischst die Tafel. Jetzt ist sie sauber und bereit für eine bunte Überschrift.";
+        clearChoices();
         addChoice("Weiter", () => {
           renderPutzenScene();
         });
       });
 
-      addChoice("Müll auf den Boden werfen", () => {
-        storyEl.textContent =
-          "Du wirfst Papier auf den Boden. Hannah erscheint sofort:\n\n" +
-          "Hannah: \"Oh nein! So wird das nichts. Mach das lieber anders.\"\n\n" +
-          "Du sammelst den Müll wieder ein.";
-        addChoice("Weiter", () => {
-          renderPutzenScene();
-        });
-      });
-
-      addChoice("Der Raum ist sauber genug", () => {
-        state.cleaned = true;
-        state.scene = "finale";
-        state.time = "Ende des Schultages";
-        renderScene();
-      });
-    }
-
-    function renderFinaleScene() {
-      state.finished = true;
-      let text =
-        "Letzte Deutschstunde – Die Party beginnt.\n\n" +
-        "Deine Klasse kommt in den Raum. ";
-
-      if (state.roomOk) {
-        text += "Zum Glück hast du einen Raum mit fünf Stühlen und einem Tisch gewählt. Alle können gut sitzen.\n\n";
-      } else {
-        text += "Der Raum ist nicht perfekt. Es fehlen Stühle oder der Tisch ist zu klein, aber ihr macht das Beste daraus.\n\n";
-      }
-
-      // Deko
-      if (isCorrectFlagColors()) {
-        text += "Die Deko in Schwarz, Rot und Gelb sieht toll aus. Alle erkennen sofort die deutschen Farben.\n";
-      } else if (state.deco.length > 0) {
-        text += "Die Deko ist bunt, aber nicht typisch deutsch. Einige lachen darüber.\n";
-      } else {
-        text += "Es gibt leider keine Deko. Der Raum sieht etwas leer aus.\n";
-      }
-
-      // Essen
-      if (state.snacks.length === 0) {
-        text += "Oh nein, es gibt gar kein Essen. Das ist eine sehr ruhige Party.\n\n";
-      } else if (checkSnacksForEveryone()) {
-        text +=
-          "Beim Essen hast du gut aufgepasst:\n" +
-          "- Für Alijah gibt es etwas Scharfes.\n" +
-          "- Für Naksh gibt es genug Gemüse.\n" +
-          "- Für Evan gibt es nichts Saures.\n" +
-          "- Für Jakub gibt es Schokolade.\n\n" +
-          "Alle sind zufrieden und bedanken sich bei dir!";
-      } else {
-        text +=
-          "Beim Essen ist nicht alles perfekt. Jemand ist nicht ganz zufrieden:\n";
-        const probleme = [];
-        let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
-        let okNaksh = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
-        let okEvanBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
-        let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
-
-        if (!okAlijah) probleme.push("Alijah – es gibt nichts Scharfes.");
-        if (!okNaksh) probleme.push("Naksh – es gibt zu wenig Gemüse.");
-        if (okEvanBad) probleme.push("Evan – es gibt etwas Saures.");
-        if (!okJakub) probleme.push("Jakub – es gibt nichts mit Schokolade.");
-
-        text += "- " + probleme.join("\n- ") + "\n\n";
-        text += "Aber ihr lacht darüber und plant schon die nächste Party besser.";
-      }
-
-      text += "\nHannah erscheint noch einmal und klatscht in die Hände:\n" +
-              "\"Gut gemacht! Du hast viel aus diesem Jahr wiederholt: " +
-              "Freunde beschreiben, Zimmer und Möbel, Hausarbeit und natürlich Essen und Trinken.\"";
-
-      storyEl.textContent = text;
-      clearChoices();
-
-      addChoice("Noch einmal spielen", () => 
+      addChoice("Müll auf 
