@@ -25,7 +25,7 @@
 
     body {
       margin: 0;
-      font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
+      font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
       background: radial-gradient(circle at top left, #f8edeb, #f3f5fb 40%, #e0fbfc);
       color: var(--text-main);
       min-height: 100vh;
@@ -328,8 +328,11 @@
     const state = {
       scene: "intro",
       time: "Morgen",
-      // Vorlieben herausgefunden?
-      // Jetzt: Alijah nur Gemüse, Naksh nichts Saures, Evan scharf, Jakub Schokolade
+      // Vorlieben:
+      // Alijah: nur Gemüse
+      // Naksh: nichts Saures
+      // Evan: scharf
+      // Jakub: Schokolade
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -341,7 +344,8 @@
       room: null,
       roomOk: false,
       cleaned: false,
-      finished: false
+      finished: false,
+      cleanSteps: 0
     };
 
     const storyEl = document.getElementById("story");
@@ -446,7 +450,7 @@
             message = "Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
             break;
           case "essen":
-            message = "Hannah: Denk an alle: etwas Scharfes für Evan, Gemüse ohne Fleisch für Alijah, keine sauren Sachen für Naksh und Schokolade für Jakub.";
+            message = "Hannah: Denk an alle: genug Gemüse für Alijah, nichts Saures für Naksh, etwas Scharfes für Evan und Schokolade für Jakub.";
             break;
           case "deko":
             message = "Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
@@ -791,6 +795,7 @@
       clearChoices();
 
       addChoice("Stühle und Tisch ordentlich hinstellen", () => {
+        state.cleanSteps++;
         storyTitleEl.textContent = "Stühle und Tisch ordnen";
         storyEl.textContent =
           "Du stellst alle Stühle ordentlich an den Tisch. Der Raum sieht schon viel besser aus.";
@@ -801,6 +806,7 @@
       });
 
       addChoice("Den Boden fegen", () => {
+        state.cleanSteps++;
         storyTitleEl.textContent = "Den Boden fegen";
         storyEl.textContent =
           "Du nimmst einen Besen und fegst den Boden. Jetzt liegt kein Papier mehr auf dem Boden.";
@@ -811,6 +817,7 @@
       });
 
       addChoice("Die Tafel sauber wischen", () => {
+        state.cleanSteps++;
         storyTitleEl.textContent = "Die Tafel wischen";
         storyEl.textContent =
           "Du wischst die Tafel. Jetzt ist sie sauber und bereit für eine bunte Überschrift.";
@@ -833,7 +840,8 @@
       });
 
       addChoice("Der Raum ist sauber genug", () => {
-        state.cleaned = true;
+        // Nur sauber, wenn mindestens eine Aufräum-Aktion gemacht wurde
+        state.cleaned = state.cleanSteps > 0;
         state.scene = "finale";
         state.time = "Ende des Schultages";
         renderScene();
@@ -959,6 +967,7 @@
       state.roomOk = false;
       state.cleaned = false;
       state.finished = false;
+      state.cleanSteps = 0;
       hannahEl.textContent = "Wenn du unsicher bist, kannst du dir hier Tipps von Hannah holen.";
     }
 
