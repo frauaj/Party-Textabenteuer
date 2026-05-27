@@ -5,6 +5,11 @@
   <title>Party-Abenteuer in der Deutschstunde</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Schönere Schriftart von Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #f3f5fb;
@@ -25,7 +30,7 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top left, #f8edeb, #f3f5fb 40%, #e0fbfc);
       color: var(--text-main);
       min-height: 100vh;
@@ -130,6 +135,7 @@
       font-weight: 600;
       font-size: 1rem;
       color: var(--primary);
+      text-align: right;
     }
 
     #story {
@@ -179,15 +185,6 @@
       font-size: 1rem;
       margin: 0 0 6px 0;
       color: var(--primary);
-    }
-
-    .section-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin: 6px 0 4px 0;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
     #status-list {
@@ -318,11 +315,11 @@
         </section>
 
         <section id="hannah-card">
-          <div id="hannah-title">✨ Hannah, die gute Fee</div>
+          <div id="hannah-title">👩‍🏫 Frau Hannah – deine Lehrerin</div>
           <div id="hannah-container">
-            Hannah wartet auf deinen Ruf …
+            Wenn du unsicher bist, kannst du dir hier Tipps von Frau Hannah holen.
           </div>
-          <button id="hannah-button" type="button">Hannah, hilf mir!</button>
+          <button id="hannah-button" type="button">Tipp von Frau Hannah</button>
         </section>
       </aside>
     </div>
@@ -336,6 +333,8 @@
     const state = {
       scene: "intro",
       time: "Morgen",
+      // Vorlieben herausgefunden?
+      // (jetzt getauscht: Evan = nur Gemüse, Naksh = nichts Saures)
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -347,8 +346,6 @@
       room: null,
       roomOk: false,
       cleaned: false,
-      hannahVisits: 0,
-      trickDone: false,
       finished: false
     };
 
@@ -439,46 +436,38 @@
 
     function hannahHelp() {
       let message = "";
-      state.hannahVisits += 1;
 
       if (state.finished) {
-        message = "Hannah: Die Party läuft schon! Jetzt kannst du einfach mitfeiern und beobachten, wer was isst.";
+        message = "Frau Hannah: Die Party läuft schon! Überlege, was gut geklappt hat und was du beim nächsten Mal besser planen kannst.";
       } else {
         switch (state.scene) {
           case "intro":
-            message = "Hannah: Heute ist ein besonderer Tag. Am Ende kommt die Deutschstunden-Party – denk daran!";
+            message = "Frau Hannah: Heute ist ein besonderer Tag. Am Ende der Stunde feiern wir – plane gut und denk an alle.";
             break;
           case "flur":
-            message = "Hannah: Kennenlernen und Freunde – sprich zuerst mit deinen Klassenkameraden.";
+            message = "Frau Hannah: Sprich zuerst mit deinen Freunden. Sie haben unterschiedliche Vorlieben.";
             break;
           case "prefs":
-            message = "Hannah: Jeder mag etwas anderes. Hör gut zu und merke dir die Vorlieben.";
+            message = "Frau Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
             break;
           case "essen":
-            message = "Hannah: Du brauchst Essen, das zu allen passt – scharf, Gemüse, nichts Saures für Evan und Schokolade für Jakub.";
+            message = "Frau Hannah: Denk an alle: etwas Scharfes, etwas ohne Fleisch, keine sauren Sachen für Naksh und Schokolade für Jakub.";
             break;
           case "deko":
-            message = "Hannah: Welche Farben hat die deutsche Flagge? Schwarz, Rot und …?";
+            message = "Frau Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
             break;
           case "raumwahl":
-            message = "Hannah: Du brauchst fünf Stühle und einen Tisch. Lies die Beschreibungen genau.";
+            message = "Frau Hannah: Wichtig sind genug Stühle, ein Tisch und Platz, damit alle bequem feiern können.";
             break;
           case "putzen":
-            message = "Hannah: Hausarbeit-Wiederholung: aufräumen, fegen, wischen, Müll wegbringen.";
+            message = "Frau Hannah: Überlege, welche Hausarbeiten zum Aufräumen gehören – dann ist der Raum bereit für die Party.";
             break;
           case "finale":
-            message = "Hannah: Schau, ob alle zufrieden sind. Dann war deine Planung erfolgreich.";
+            message = "Frau Hannah: Schau dir an, ob alle etwas Passendes zu essen haben, der Raum passt und ordentlich ist.";
             break;
           default:
-            message = "Hannah: Lies in Ruhe und wähle die Antwort, die am besten passt.";
+            message = "Frau Hannah: Lies die Optionen in Ruhe. Wähle, was für die Party am sinnvollsten ist.";
         }
-      }
-
-      if (!state.trickDone && state.snacks.length >= 2 && Math.random() < 0.4) {
-        state.trickDone = true;
-        const removed = state.snacks.pop();
-        message += " (Ups! Ich habe aus Versehen \"" + removed +
-                   "\" verschwinden lassen. Du kannst später noch einmal einkaufen gehen.)";
       }
 
       hannahEl.textContent = message;
@@ -513,7 +502,8 @@
           storyTitleEl.textContent = "In der Schule – im Flur";
           storyEl.textContent =
             "Du stehst im Flur vor deinem Klassenzimmer. Viele Schülerinnen und Schüler laufen vorbei. " +
-            "Deine Deutschlehrerin sagt im Vorbeigehen: \"Vergiss die Party heute nicht! Plane alles gut.\"\n\n" +
+            "Deine Deutschlehrerin, Frau Hannah, geht an dir vorbei und lächelt.\n\n" +
+            "Frau Hannah: \"Vergiss die Party heute nicht! Plane alles gut, damit alle Spaß haben.\"\n\n" +
             "Du erinnerst dich an die Themen dieses Schuljahres: Kennenlernen, Familie und Freunde, Schule, Zu Hause, " +
             "Zimmer und Möbel, Hausarbeit, Beschreibungen und natürlich Essen und Trinken.\n\n" +
             "Deine Freunde Alijah, Naksh, Evan und Jakub sind schon im Klassenraum.";
@@ -521,20 +511,20 @@
             state.scene = "prefs";
             renderScene();
           });
-          addChoice("Kurz zur Lehrerin gehen und nach Tipps fragen", () => {
+          addChoice("Kurz mit Frau Hannah sprechen", () => {
             state.scene = "lehrerin";
             renderScene();
           });
           break;
 
         case "lehrerin":
-          storyTitleEl.textContent = "Kurzes Gespräch mit der Lehrerin";
+          storyTitleEl.textContent = "Gespräch mit Frau Hannah";
           storyEl.textContent =
-            "Du gehst zur Lehrerin.\n\n" +
-            "Du: \"Frau Müller, haben Sie noch Tipps für die Party?\"\n" +
-            "Lehrerin: \"Ihr macht das schon. Frag deine Freunde nach ihren Vorlieben und überleg gut. " +
-            "Wenn etwas schiefgeht, ruft einfach Hannah, die gute Fee!\"\n\n" +
-            "Du lächelst. Hannah kennst du schon aus anderen Geschichten.";
+            "Du gehst zu Frau Hannah.\n\n" +
+            "Du: \"Frau Hannah, haben Sie noch Tipps für die Party?\"\n" +
+            "Frau Hannah: \"Frag deine Freunde nach ihren Vorlieben und achte darauf, dass es für alle etwas gibt. " +
+            "Wenn du unsicher bist, kannst du später meine Tipps lesen.\"\n\n" +
+            "Du nickst. Das hilft dir bei der Planung.";
           addChoice("Zurück in den Flur gehen", () => {
             state.scene = "flur";
             renderScene();
@@ -582,10 +572,10 @@
         text += "Alijah sitzt neben dem Fenster und isst ein kleines Stück Pizza.\n";
       }
       if (!state.prefsKnown.Naksh) {
-        text += "Naksh liest ein Buch über Gemüse und Pflanzen.\n";
+        text += "Naksh schaut aus dem Fenster und trinkt einen Saft.\n";
       }
       if (!state.prefsKnown.Evan) {
-        text += "Evan trinkt einen Saft und macht Hausaufgaben.\n";
+        text += "Evan liest ein Buch über Gemüse und Pflanzen.\n";
       }
       if (!state.prefsKnown.Jakub) {
         text += "Jakub hat einen Schokoriegel im Federmäppchen versteckt.\n";
@@ -615,8 +605,9 @@
           storyTitleEl.textContent = "Gespräch mit Naksh";
           storyEl.textContent =
             "Du: \"Naksh, was isst du gern?\"\n" +
-            "Naksh: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. Kein Fleisch für mich!\"\n\n" +
-            "Du notierst: Naksh mag nur Gemüse.";
+            "Naksh: \"Bitte nichts Saures. Ich mag keine sauren Gummibärchen und keinen sauren Saft. " +
+            "Süß oder mild ist okay.\"\n\n" +
+            "Du notierst: Naksh mag nichts Saures.";
           clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
@@ -630,9 +621,9 @@
           storyTitleEl.textContent = "Gespräch mit Evan";
           storyEl.textContent =
             "Du: \"Evan, was soll es auf der Party geben?\"\n" +
-            "Evan: \"Bitte nichts Saures. Ich mag keine sauren Gummibärchen und keinen sauren Saft. " +
-            "Süß oder mild ist okay.\"\n\n" +
-            "Du notierst: Evan mag nichts Saures.";
+            "Evan: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. " +
+            "Kein Fleisch für mich!\"\n\n" +
+            "Du notierst: Evan isst nur Gemüse.";
           clearChoices();
           addChoice("Weiter", () => {
             renderPrefsScene();
@@ -670,8 +661,8 @@
         "Große Pause – Im Supermarkt neben der Schule.\n\n" +
         "Du gehst mit einer kleinen Gruppe in den Supermarkt. Du erinnerst dich an die Vorlieben:\n" +
         "- Alijah mag scharf.\n" +
-        "- Naksh mag nur Gemüse.\n" +
-        "- Evan mag nichts Saures.\n" +
+        "- Naksh mag nichts Saures.\n" +
+        "- Evan isst nur Gemüse.\n" +
         "- Jakub mag Schokolade.\n\n" +
         "Du siehst verschiedene Sachen im Regal:";
 
@@ -707,19 +698,24 @@
     }
 
     function checkSnacksForEveryone() {
+      // Alijah: braucht etwas Scharfes
       let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
-      let okNaksh = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
-      let okEvanBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
+      // Evan: nur Gemüse
+      let okEvan = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+      // Naksh: nichts Saures
+      let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
+      // Jakub: etwas mit Schokolade
       let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
 
-      return okAlijah && okNaksh && !okEvanBad && okJakub;
+      return okAlijah && okEvan && !okNakshBad && okJakub;
     }
 
     function renderDecoScene() {
       storyTitleEl.textContent = "Dekogeschäft – Farben wählen";
       storyEl.textContent =
         "Du hast das Essen im Rucksack und gehst in ein kleines Dekogeschäft.\n\n" +
-        "Du denkst an die Farben der deutschen Flagge. Du möchtest Girlanden und Luftballons in den richtigen Farben kaufen.\n\n" +
+        "Du überlegst, wie die Party aussehen soll. Es wäre schön, wenn man gleich sieht, dass es eine Deutsch-Party ist.\n" +
+        "Du möchtest Girlanden und Luftballons in passenden Farben kaufen.\n\n" +
         "Welche Farbkombination wählst du?";
 
       clearChoices();
@@ -752,7 +748,9 @@
       storyTitleEl.textContent = "Schule – ein Raum für die Party";
       storyEl.textContent =
         "Nach dem Mittagessen suchst du ein gutes Klassenzimmer für die Party.\n\n" +
-        "Du siehst drei offene Räume. Du erinnerst dich an Wörter für Möbel und Präpositionen und schaust genau hin:\n\n" +
+        "Du überlegst, was für eine gute Party wichtig ist: genug Stühle für alle, ein Tisch für das Essen " +
+        "und genug Platz, damit alle bequem feiern können.\n\n" +
+        "Du siehst drei offene Räume:\n\n" +
         "Raum A: In der Ecke steht ein Schrank. In der Mitte stehen drei Stühle und ein kleiner Tisch. " +
         "Neben dem Fenster steht ein großes Regal.\n\n" +
         "Raum B: Vor der Tafel stehen fünf Stühle und ein großer Tisch. Unter den Fenstern stehen Pflanzen. " +
@@ -764,7 +762,6 @@
       addChoice("Raum A wählen", () => {
         state.room = "Raum A";
         state.roomOk = false;
-        maybeHannahTrickInRoom();
         state.scene = "putzen";
         state.time = "Nachmittag";
         renderScene();
@@ -773,7 +770,6 @@
       addChoice("Raum B wählen", () => {
         state.room = "Raum B";
         state.roomOk = true;
-        maybeHannahTrickInRoom();
         state.scene = "putzen";
         state.time = "Nachmittag";
         renderScene();
@@ -782,20 +778,10 @@
       addChoice("Raum C wählen", () => {
         state.room = "Raum C";
         state.roomOk = false;
-        maybeHannahTrickInRoom();
         state.scene = "putzen";
         state.time = "Nachmittag";
         renderScene();
       });
-    }
-
-    function maybeHannahTrickInRoom() {
-      if (!state.trickDone && Math.random() < 0.3) {
-        state.trickDone = true;
-        hannahEl.textContent =
-          "Hannah erscheint plötzlich und kichert: \"Ups, ich habe einen Stuhl unsichtbar gemacht! " +
-          "Wenn du gleich ordentlich aufräumst, zaubere ich ihn wieder zurück.\"";
-      }
     }
 
     function renderPutzenScene() {
@@ -843,8 +829,8 @@
       addChoice("Müll auf den Boden werfen", () => {
         storyTitleEl.textContent = "Kein guter Plan";
         storyEl.textContent =
-          "Du wirfst Papier auf den Boden. Hannah erscheint sofort:\n\n" +
-          "Hannah: \"Oh nein! So wird das nichts. Mach das lieber anders.\"\n\n" +
+          "Du wirfst Papier auf den Boden. Frau Hannah schaut zufällig herein und schüttelt den Kopf:\n\n" +
+          "\"So wird das nichts. Sammle den Müll lieber wieder ein. Der Raum soll für die Party schön aussehen.\"\n\n" +
           "Du sammelst den Müll wieder ein.";
         clearChoices();
         addChoice("Weiter", () => {
@@ -858,6 +844,47 @@
         state.time = "Ende des Schultages";
         renderScene();
       });
+    }
+
+    function computeScore() {
+      let score = 0;
+      if (areAllPrefsKnown()) score++;           // alle Vorlieben geklärt
+      if (checkSnacksForEveryone()) score++;     // beim Essen alle berücksichtigt
+      if (isCorrectFlagColors()) score++;        // passende Deko-Farben
+      if (state.roomOk) score++;                 // guter Raum gewählt
+      if (state.cleaned) score++;                // Raum aufgeräumt
+      return score;
+    }
+
+    function gradeFromScore(score) {
+      let noteNumber;
+      let noteText;
+      switch (score) {
+        case 5:
+          noteNumber = "1";
+          noteText = "sehr gut";
+          break;
+        case 4:
+          noteNumber = "2";
+          noteText = "gut";
+          break;
+        case 3:
+          noteNumber = "3";
+          noteText = "befriedigend";
+          break;
+        case 2:
+          noteNumber = "4";
+          noteText = "ausreichend";
+          break;
+        case 1:
+          noteNumber = "5";
+          noteText = "mangelhaft";
+          break;
+        default:
+          noteNumber = "6";
+          noteText = "ungenügend";
+      }
+      return { noteNumber, noteText };
     }
 
     function renderFinaleScene() {
@@ -887,31 +914,37 @@
         text +=
           "Beim Essen hast du gut aufgepasst:\n" +
           "- Für Alijah gibt es etwas Scharfes.\n" +
-          "- Für Naksh gibt es genug Gemüse.\n" +
-          "- Für Evan gibt es nichts Saures.\n" +
+          "- Für Naksh gibt es nichts Saures.\n" +
+          "- Für Evan gibt es genug Gemüse.\n" +
           "- Für Jakub gibt es Schokolade.\n\n" +
-          "Alle sind zufrieden und bedanken sich bei dir!";
+          "Alle sind zufrieden und bedanken sich bei dir.\n\n";
       } else {
         text +=
           "Beim Essen ist nicht alles perfekt. Jemand ist nicht ganz zufrieden:\n";
         const probleme = [];
         let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
-        let okNaksh = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
-        let okEvanBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
+        let okEvan = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+        let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
         let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
 
         if (!okAlijah) probleme.push("Alijah – es gibt nichts Scharfes.");
-        if (!okNaksh) probleme.push("Naksh – es gibt zu wenig Gemüse.");
-        if (okEvanBad) probleme.push("Evan – es gibt etwas Saures.");
+        if (!okEvan) probleme.push("Evan – es gibt zu wenig Gemüse.");
+        if (okNakshBad) probleme.push("Naksh – es gibt etwas Saures.");
         if (!okJakub) probleme.push("Jakub – es gibt nichts mit Schokolade.");
 
         text += "- " + probleme.join("\n- ") + "\n\n";
-        text += "Aber ihr lacht darüber und plant schon die nächste Party besser.";
+        text += "Aber ihr lacht darüber und plant schon die nächste Party besser.\n\n";
       }
 
-      text += "\n\nHannah erscheint noch einmal und klatscht in die Hände:\n" +
-              "\"Gut gemacht! Du hast viel aus diesem Jahr wiederholt: " +
-              "Freunde beschreiben, Zimmer und Möbel, Hausarbeit und natürlich Essen und Trinken.\"";
+      const score = computeScore();
+      const grade = gradeFromScore(score);
+
+      text +=
+        "Am Ende der Stunde spricht Frau Hannah mit dir über die Planung.\n" +
+        "\"Du hast " + score + " von 5 wichtigen Punkten gut erledigt. " +
+        "Du bekommst die Note " + grade.noteNumber + " (" + grade.noteText + ") für deine Partyplanung.\"\n\n" +
+        "Sie lächelt: \"Du hast heute viel wiederholt: Freunde beschreiben, Zimmer und Möbel, Hausarbeit " +
+        "und natürlich Essen und Trinken.\"";
 
       storyEl.textContent = text;
       clearChoices();
@@ -931,12 +964,11 @@
       state.room = null;
       state.roomOk = false;
       state.cleaned = false;
-      state.hannahVisits = 0;
-      state.trickDone = false;
       state.finished = false;
-      hannahEl.textContent = "Hannah wartet auf deinen Ruf …";
+      hannahEl.textContent = "Wenn du unsicher bist, kannst du dir hier Tipps von Frau Hannah holen.";
     }
 
+    // Spiel starten
     renderScene();
   </script>
 </body>
