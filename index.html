@@ -840,4 +840,104 @@
         });
       });
 
-      addChoice("Müll auf 
+      addChoice("Müll auf den Boden werfen", () => {
+        storyTitleEl.textContent = "Kein guter Plan";
+        storyEl.textContent =
+          "Du wirfst Papier auf den Boden. Hannah erscheint sofort:\n\n" +
+          "Hannah: \"Oh nein! So wird das nichts. Mach das lieber anders.\"\n\n" +
+          "Du sammelst den Müll wieder ein.";
+        clearChoices();
+        addChoice("Weiter", () => {
+          renderPutzenScene();
+        });
+      });
+
+      addChoice("Der Raum ist sauber genug", () => {
+        state.cleaned = true;
+        state.scene = "finale";
+        state.time = "Ende des Schultages";
+        renderScene();
+      });
+    }
+
+    function renderFinaleScene() {
+      state.finished = true;
+      storyTitleEl.textContent = "Die Party beginnt!";
+      let text =
+        "Letzte Deutschstunde – Die Party beginnt.\n\n" +
+        "Deine Klasse kommt in den Raum. ";
+
+      if (state.roomOk) {
+        text += "Zum Glück hast du einen Raum mit fünf Stühlen und einem Tisch gewählt. Alle können gut sitzen.\n\n";
+      } else {
+        text += "Der Raum ist nicht perfekt. Es fehlen Stühle oder der Tisch ist zu klein, aber ihr macht das Beste daraus.\n\n";
+      }
+
+      if (isCorrectFlagColors()) {
+        text += "Die Deko in Schwarz, Rot und Gelb sieht toll aus. Alle erkennen sofort die deutschen Farben.\n";
+      } else if (state.deco.length > 0) {
+        text += "Die Deko ist bunt, aber nicht typisch deutsch. Einige lachen darüber.\n";
+      } else {
+        text += "Es gibt leider keine Deko. Der Raum sieht etwas leer aus.\n";
+      }
+
+      if (state.snacks.length === 0) {
+        text += "Oh nein, es gibt gar kein Essen. Das ist eine sehr ruhige Party.\n\n";
+      } else if (checkSnacksForEveryone()) {
+        text +=
+          "Beim Essen hast du gut aufgepasst:\n" +
+          "- Für Alijah gibt es etwas Scharfes.\n" +
+          "- Für Naksh gibt es genug Gemüse.\n" +
+          "- Für Evan gibt es nichts Saures.\n" +
+          "- Für Jakub gibt es Schokolade.\n\n" +
+          "Alle sind zufrieden und bedanken sich bei dir!";
+      } else {
+        text +=
+          "Beim Essen ist nicht alles perfekt. Jemand ist nicht ganz zufrieden:\n";
+        const probleme = [];
+        let okAlijah = state.snacks.some(s => s.includes("Chili") || s.includes("scharf"));
+        let okNaksh = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+        let okEvanBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
+        let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
+
+        if (!okAlijah) probleme.push("Alijah – es gibt nichts Scharfes.");
+        if (!okNaksh) probleme.push("Naksh – es gibt zu wenig Gemüse.");
+        if (okEvanBad) probleme.push("Evan – es gibt etwas Saures.");
+        if (!okJakub) probleme.push("Jakub – es gibt nichts mit Schokolade.");
+
+        text += "- " + probleme.join("\n- ") + "\n\n";
+        text += "Aber ihr lacht darüber und plant schon die nächste Party besser.";
+      }
+
+      text += "\n\nHannah erscheint noch einmal und klatscht in die Hände:\n" +
+              "\"Gut gemacht! Du hast viel aus diesem Jahr wiederholt: " +
+              "Freunde beschreiben, Zimmer und Möbel, Hausarbeit und natürlich Essen und Trinken.\"";
+
+      storyEl.textContent = text;
+      clearChoices();
+
+      addChoice("Noch einmal spielen", () => {
+        resetGame();
+        renderScene();
+      });
+    }
+
+    function resetGame() {
+      state.scene = "intro";
+      state.time = "Morgen";
+      state.prefsKnown = { Alijah: false, Naksh: false, Evan: false, Jakub: false };
+      state.snacks = [];
+      state.deco = [];
+      state.room = null;
+      state.roomOk = false;
+      state.cleaned = false;
+      state.hannahVisits = 0;
+      state.trickDone = false;
+      state.finished = false;
+      hannahEl.textContent = "Hannah wartet auf deinen Ruf …";
+    }
+
+    renderScene();
+  </script>
+</body>
+</html>
