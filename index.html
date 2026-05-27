@@ -1,338 +1,756 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Party-Abenteuer in der Deutschstunde</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #f3f5fb;
-      --primary: #264653;
-      --primary-light: #2a9d8f;
-      --accent: #e9c46a;
-      --danger: #e76f51;
-      --card-bg: #ffffff;
-      --text-main: #222222;
-      --text-muted: #555555;
-      --radius: 10px;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --bg-1: #fff7ef;
+      --bg-2: #fef3ff;
+      --bg-3: #eef8ff;
+      --panel: #ffffff;
+      --panel-2: #fffdf8;
+      --text: #2b2040;
+      --muted: #6f6484;
+      --primary: #6c5ce7;
+      --primary-dark: #5649c9;
+      --secondary: #ff9f43;
+      --success: #2ecc71;
+      --danger: #ff6b6b;
+      --gold: #f4c542;
+      --pink: #ff66b3;
+      --cyan: #56ccf2;
+      --border: rgba(76, 48, 120, 0.14);
+      --shadow: 0 14px 40px rgba(93, 64, 154, 0.15);
+      --shadow-soft: 0 8px 20px rgba(93, 64, 154, 0.08);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --font-main: "Trebuchet MS", "Comic Sans MS", "Verdana", sans-serif;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
     body {
-      margin: 0;
-      font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
-      background: radial-gradient(circle at top left, #f8edeb, #f3f5fb 40%, #e0fbfc);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      font-family: var(--font-main);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #fff2c6 0%, transparent 26%),
+        radial-gradient(circle at top right, #ffd6ee 0%, transparent 24%),
+        radial-gradient(circle at bottom left, #d8f3ff 0%, transparent 22%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+      overflow-x: hidden;
     }
 
-    header {
-      padding: 16px;
-      text-align: center;
+    .page-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #7b68ee, #5f8cff 45%, #47c9ff);
       color: white;
-      background: linear-gradient(120deg, var(--primary), var(--primary-light));
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 22px 22px 18px;
+      margin-bottom: 18px;
+      border: 3px solid rgba(255,255,255,0.22);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      letter-spacing: 0.03em;
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      pointer-events: none;
     }
 
-    header p {
-      margin: 4px 0 0 0;
-      font-size: 0.9rem;
-      opacity: 0.9;
+    .hero::before {
+      width: 180px;
+      height: 180px;
+      top: -55px;
+      right: -30px;
     }
 
-    main {
-      flex: 1;
+    .hero::after {
+      width: 110px;
+      height: 110px;
+      bottom: -25px;
+      left: 28px;
+    }
+
+    .hero-top {
       display: flex;
-      justify-content: center;
-      padding: 18px 12px 24px;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.14);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: bold;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.14);
+      margin-bottom: 12px;
+    }
+
+    .brand-star {
+      width: 30px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      background: #ffd84d;
+      color: #6b4600;
+      border-radius: 50%;
+      box-shadow: 0 4px 0 rgba(122, 86, 8, 0.18);
+      font-size: 1rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px 0;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      line-height: 1.02;
+      letter-spacing: 0.02em;
+      text-shadow: 0 3px 0 rgba(65, 45, 130, 0.25);
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 60ch;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .hero-chip {
+      background: rgba(255,255,255,0.16);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: bold;
+      border: 2px solid rgba(255,255,255,0.14);
     }
 
     .layout {
-      width: 100%;
-      max-width: 1080px;
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 16px;
+      grid-template-columns: 1.8fr 1fr;
+      gap: 18px;
+      align-items: start;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 980px) {
       .layout {
         grid-template-columns: 1fr;
       }
     }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
+    .panel {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-      padding: 16px 18px;
+      border: 2px solid rgba(255,255,255,0.9);
+      overflow: hidden;
     }
 
-    #story-card {
+    .story-panel {
+      min-height: 620px;
       display: flex;
       flex-direction: column;
-      min-height: 340px;
     }
 
-    #story-header {
+    .panel-top {
+      padding: 18px 18px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.75));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hud-row {
       display: flex;
       justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
       align-items: center;
       margin-bottom: 12px;
-      gap: 8px;
     }
 
-    #story-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    #time-pill {
+    .pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: #edf6f9;
-      color: var(--primary);
-      padding: 4px 10px;
+      gap: 8px;
+      padding: 8px 12px;
       border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: bold;
+      font-size: 0.92rem;
+      background: #f3eeff;
+      color: #4a3796;
+      border: 2px solid #ddd4ff;
+      box-shadow: var(--shadow-soft);
     }
 
-    #time-pill span {
-      font-size: 0.8rem;
-      opacity: 0.8;
+    .pill.time {
+      background: #eaf8ff;
+      border-color: #c9ecff;
+      color: #1a6687;
     }
 
-    #progress {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .pill.score {
+      background: #fff3d5;
+      border-color: #ffe09b;
+      color: #8a5d00;
     }
 
     #story-title {
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--primary);
-      text-align: right;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #45316f;
+      margin: 0;
     }
 
     #story {
+      padding: 22px 20px 10px;
       white-space: pre-line;
-      line-height: 1.5;
-      margin-bottom: 16px;
-      font-size: 0.98rem;
+      line-height: 1.7;
+      font-size: 1.03rem;
+      min-height: 290px;
     }
 
     #choices {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
+      padding: 0 20px 22px;
       margin-top: auto;
     }
 
     .choice-btn {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--primary-light);
-      background: #f0fdf9;
-      color: var(--primary);
+      appearance: none;
+      border: none;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.15s ease;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 0.98rem;
+      font-weight: bold;
+      line-height: 1.3;
+      color: white;
+      background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 6px 0 #4337a4, 0 10px 18px rgba(91, 71, 190, 0.2);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
     }
 
     .choice-btn:hover {
-      background: var(--primary-light);
-      color: white;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+      filter: brightness(1.03);
     }
 
     .choice-btn:active {
-      transform: translateY(0);
-      box-shadow: none;
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #4337a4, 0 5px 10px rgba(91, 71, 190, 0.16);
     }
 
-    #sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .sidebar {
+      display: grid;
+      gap: 16px;
     }
 
-    #sidebar h2 {
-      font-size: 1rem;
-      margin: 0 0 6px 0;
-      color: var(--primary);
+    .card {
+      padding: 18px;
     }
 
-    #status-list {
+    .card h2 {
+      margin: 0 0 12px 0;
+      font-size: 1.08rem;
+      color: #483468;
+    }
+
+    .status-list {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
       margin: 0;
-      font-size: 0.9rem;
+      display: grid;
+      gap: 10px;
     }
 
-    #status-list li {
-      margin-bottom: 4px;
+    .status-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-    }
-
-    #status-list li span.bullet {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    #status-list li.good span.bullet {
-      background: #2ecc71;
-    }
-
-    #status-list li.bad span.bullet {
-      background: var(--danger);
-    }
-
-    #status-list li.neutral span.bullet {
-      background: #bdc3c7;
-    }
-
-    #status-list li strong {
-      font-weight: 600;
-    }
-
-    #hannah-card {
-      background: #fff7e6;
-      border-radius: var(--radius);
-      border-left: 5px solid var(--accent);
+      gap: 10px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       padding: 10px 12px;
-      font-size: 0.9rem;
     }
 
-    #hannah-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: #b67100;
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex: 0 0 14px;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.13);
+    }
+
+    .dot.good { background: var(--success); }
+    .dot.bad { background: var(--danger); }
+    .dot.neutral { background: #c7bfd9; }
+
+    .teacher-box {
+      background: linear-gradient(180deg, #fff4d9, #fff9ea);
+      border: 2px solid #ffe09c;
+    }
+
+    .teacher-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.02rem;
+      font-weight: bold;
+      color: #875c00;
+      margin-bottom: 10px;
+    }
+
+    .teacher-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #ffd86b, #ffb74d);
+      box-shadow: 0 4px 0 rgba(144, 93, 0, 0.18);
+      font-size: 1.05rem;
     }
 
     #hannah-container {
-      min-height: 40px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 72px;
+      line-height: 1.5;
+      color: #6b5200;
     }
 
     #hannah-button {
-      margin-top: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
+      margin-top: 10px;
+      width: 100%;
       border: none;
-      background: var(--accent);
-      color: #4a2800;
+      border-radius: 16px;
+      padding: 12px 14px;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: background 0.15s ease, transform 0.1s ease;
-    }
-
-    #hannah-button:hover {
-      background: #f4a261;
-      transform: translateY(-1px);
+      font-weight: bold;
+      font-size: 0.98rem;
+      color: #5e3e00;
+      background: linear-gradient(180deg, #ffd95e, #ffbe3b);
+      box-shadow: 0 6px 0 #d99612, 0 10px 18px rgba(255, 185, 57, 0.22);
     }
 
     #hannah-button:active {
-      transform: translateY(0);
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #d99612, 0 5px 10px rgba(255, 185, 57, 0.18);
     }
 
-    footer {
+    .achievement-section-title {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+      color: #5a497a;
+    }
+
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .achievement {
+      position: relative;
+      border-radius: 18px;
+      padding: 12px 10px;
       text-align: center;
-      padding: 10px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      border: 2px dashed #ddd2f5;
+      background: #f8f4ff;
+      color: #796a9a;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      min-height: 112px;
+      display: grid;
+      align-content: center;
+      gap: 6px;
     }
 
-    .good {
-      color: #217a38;
-      font-weight: 600;
+    .achievement.unlocked {
+      background: linear-gradient(180deg, #fffbe7, #fff2be);
+      border-color: #ffd75d;
+      color: #6c5100;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(255, 205, 76, 0.18);
     }
 
-    .bad {
-      color: var(--danger);
-      font-weight: 600;
+    .achievement.negative {
+      border-style: dashed;
+      background: #fff4f4;
+      border-color: #ffc5c5;
+      color: #9a5d5d;
+    }
+
+    .achievement.negative.unlocked {
+      background: linear-gradient(180deg, #fff0f0, #ffd6d6);
+      border-color: #ff8d8d;
+      color: #8a2e2e;
+      box-shadow: 0 10px 20px rgba(255, 107, 107, 0.16);
+    }
+
+    .achievement-icon {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      background: rgba(255,255,255,0.82);
+      border: 2px solid rgba(116,92,170,0.12);
+    }
+
+    .achievement.unlocked .achievement-icon {
+      background: #fff7cf;
+      border-color: #ffd75d;
+    }
+
+    .achievement.negative.unlocked .achievement-icon {
+      background: #ffe4e4;
+      border-color: #ff9b9b;
+    }
+
+    .achievement-name {
+      font-weight: bold;
+      font-size: 0.92rem;
+      line-height: 1.2;
+    }
+
+    .achievement-desc {
+      font-size: 0.78rem;
+      line-height: 1.3;
+    }
+
+    .toast-layer {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      display: grid;
+      gap: 10px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast {
+      color: white;
+      border-radius: 18px;
+      padding: 12px 14px;
+      min-width: 250px;
+      max-width: 340px;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(255,255,255,0.18);
+      animation: toastIn 0.4s ease, toastOut 0.4s ease 3.1s forwards;
+    }
+
+    .toast.positive {
+      background: linear-gradient(135deg, #5e4cd3, #7b68ee);
+    }
+
+    .toast.negative {
+      background: linear-gradient(135deg, #d95555, #ff7b7b);
+    }
+
+    .toast-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .toast-text {
+      font-size: 0.86rem;
+      opacity: 0.95;
+      line-height: 1.35;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(30px) scale(0.96); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      to { opacity: 0; transform: translateX(40px) scale(0.98); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 12px;
+      height: 18px;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 1200;
+      animation: confettiFall linear forwards;
+      border-radius: 4px;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(720deg);
+        opacity: 0.9;
+      }
+    }
+
+    .big-grade {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #fff7d6, #ffeaa5);
+      color: #7d5600;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: bold;
+      border: 2px solid #ffd866;
+      box-shadow: 0 6px 0 rgba(193, 145, 20, 0.18);
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 12px 0 6px;
+    }
+
+    .sparkle {
+      display: inline-block;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(10deg) scale(1.15); }
+    }
+
+    @media (max-width: 700px) {
+      .achievement-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      #story {
+        font-size: 0.98rem;
+      }
+
+      .choice-btn,
+      #hannah-button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Party-Abenteuer in der Deutschstunde</h1>
-    <p>Interaktive Geschichte – Wiederholung: Kennenlernen, Freunde, Schule, Zu Hause, Beschreibungen, Essen &amp; Trinken</p>
-  </header>
+  <div class="toast-layer" id="toast-layer"></div>
 
-  <main>
-    <div class="layout">
-      <!-- STORY -->
-      <section id="story-card" class="card">
-        <div id="story-header">
-          <div id="story-header-left">
-            <div id="time-pill">
-              <span>🕒</span>
-              <span id="time-display">Morgen</span>
-            </div>
-            <div id="progress">Tag der Party in der Schule</div>
+  <div class="page-wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="brand-badge">
+            <span class="brand-star">★</span>
+            <span>Deutsch-Quest</span>
           </div>
-          <div id="story-title">Dein Tag beginnt …</div>
+          <h1>Party-Abenteuer<br>in der Deutschstunde</h1>
+          <p>
+            Plane die Klassenparty, triff gute Entscheidungen, sammle Erfolge
+            und zeig, wie viel du in diesem Jahr gelernt hast.
+          </p>
+          <div class="hero-stats">
+            <div class="hero-chip">🎮 Spielmodus: Textabenteuer</div>
+            <div class="hero-chip">🏆 Mit Achievements</div>
+            <div class="hero-chip">📝 Party-Mission</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel story-panel">
+        <div class="panel-top">
+          <div class="hud-row">
+            <div class="pill time">🕒 <span id="time-display">Morgen</span></div>
+            <div class="pill score">⭐ Punkte: <span id="score-display">0</span>/5</div>
+          </div>
+          <h2 id="story-title">Dein Tag beginnt …</h2>
         </div>
 
         <div id="story"></div>
         <div id="choices"></div>
       </section>
 
-      <!-- SIDEBAR -->
-      <aside id="sidebar">
-        <section class="card">
+      <aside class="sidebar">
+        <section class="panel card">
           <h2>Party-Checkliste</h2>
-          <ul id="status-list"></ul>
+          <ul class="status-list" id="status-list"></ul>
         </section>
 
-        <section id="hannah-card">
-          <div id="hannah-title">👩‍🏫 Hannah – deine Lehrerin</div>
+        <section class="panel card teacher-box">
+          <div class="teacher-title">
+            <div class="teacher-avatar">👩‍🏫</div>
+            <div>Hannah – deine Lehrerin</div>
+          </div>
           <div id="hannah-container">
             Wenn du unsicher bist, kannst du dir hier Tipps von Hannah holen.
           </div>
           <button id="hannah-button" type="button">Tipp von Hannah</button>
         </section>
-      </aside>
-    </div>
-  </main>
 
-  <footer>
-    A2–B1 Textabenteuer für Deutschlernende – Entscheidungen treffen, Dialoge lesen, Wortschatz wiederholen.
-  </footer>
+        <section class="panel card">
+          <h2>Achievements</h2>
+
+          <div class="achievement-section-title">Positiv</div>
+          <div class="achievement-grid" id="achievement-grid-positive"></div>
+
+          <div class="achievement-section-title" style="margin-top:14px;">Oops-Achievements</div>
+          <div class="achievement-grid" id="achievement-grid-negative"></div>
+        </section>
+      </aside>
+    </main>
+
+    <div class="footer-note">
+      Für Klasse 6–8 · Deutschlernende · interaktive Klassenparty-Mission
+    </div>
+  </div>
 
   <script>
+    const achievements = [
+      {
+        id: "talked_all",
+        name: "Freunde-Profi",
+        desc: "Alle Vorlieben herausgefunden",
+        icon: "🗣️",
+        unlocked: false,
+        negative: false
+      },
+      {
+        id: "food_master",
+        name: "Snack-Meister",
+        desc: "Für alle passendes Essen gefunden",
+        icon: "🛒",
+        unlocked: false,
+        negative: false
+      },
+      {
+        id: "flag_master",
+        name: "Deko-Star",
+        desc: "Die richtigen Flaggenfarben gewählt",
+        icon: "🎈",
+        unlocked: false,
+        negative: false
+      },
+      {
+        id: "room_master",
+        name: "Raum-Checker",
+        desc: "Das beste Zimmer gefunden",
+        icon: "🏫",
+        unlocked: false,
+        negative: false
+      },
+      {
+        id: "clean_master",
+        name: "Putz-Team",
+        desc: "Wirklich aufgeräumt",
+        icon: "🧹",
+        unlocked: false,
+        negative: false
+      },
+      {
+        id: "party_legend",
+        name: "Party-Legende",
+        desc: "5 von 5 Punkten geschafft",
+        icon: "👑",
+        unlocked: false,
+        negative: false
+      },
+
+      {
+        id: "sour_trouble",
+        name: "Sauer-Falle",
+        desc: "Etwas Saures für Naksh gekauft",
+        icon: "🍋",
+        unlocked: false,
+        negative: true
+      },
+      {
+        id: "wrong_flag",
+        name: "Falsche Farben",
+        desc: "Die Deko passt nicht zur Flagge",
+        icon: "🎨",
+        unlocked: false,
+        negative: true
+      },
+      {
+        id: "mess_master",
+        name: "Chaos-Modus",
+        desc: "Nicht richtig aufgeräumt",
+        icon: "🌀",
+        unlocked: false,
+        negative: true
+      },
+      {
+        id: "oops_room",
+        name: "Raum-Irrtum",
+        desc: "Kein ideales Klassenzimmer gewählt",
+        icon: "🚪",
+        unlocked: false,
+        negative: true
+      },
+      {
+        id: "trash_move",
+        name: "Müll-Moment",
+        desc: "Müll auf den Boden geworfen",
+        icon: "🗑️",
+        unlocked: false,
+        negative: true
+      }
+    ];
+
     const state = {
       scene: "intro",
       time: "Morgen",
-      // Vorlieben:
-      // Alijah: nur Gemüse
-      // Naksh: nichts Saures
-      // Evan: scharf
-      // Jakub: Schokolade
       prefsKnown: {
         Alijah: false,
         Naksh: false,
@@ -345,7 +763,8 @@
       roomOk: false,
       cleaned: false,
       finished: false,
-      cleanSteps: 0
+      cleanSteps: 0,
+      trashThrown: false
     };
 
     const storyEl = document.getElementById("story");
@@ -355,9 +774,27 @@
     const hannahEl = document.getElementById("hannah-container");
     const hannahBtn = document.getElementById("hannah-button");
     const storyTitleEl = document.getElementById("story-title");
+    const achievementPositiveEl = document.getElementById("achievement-grid-positive");
+    const achievementNegativeEl = document.getElementById("achievement-grid-negative");
+    const scoreDisplayEl = document.getElementById("score-display");
+    const toastLayer = document.getElementById("toast-layer");
 
     function updateTime() {
       timeEl.textContent = state.time;
+    }
+
+    function computeScore() {
+      let score = 0;
+      if (areAllPrefsKnown()) score++;
+      if (checkSnacksForEveryone()) score++;
+      if (isCorrectFlagColors()) score++;
+      if (state.roomOk) score++;
+      if (state.cleaned) score++;
+      return score;
+    }
+
+    function updateScore() {
+      scoreDisplayEl.textContent = computeScore();
     }
 
     function updateStatus() {
@@ -365,11 +802,11 @@
 
       function addStatus(text, type) {
         const li = document.createElement("li");
-        li.classList.add(type || "neutral");
+        li.className = "status-item";
 
-        const bullet = document.createElement("span");
-        bullet.classList.add("bullet");
-        li.appendChild(bullet);
+        const dot = document.createElement("span");
+        dot.className = "dot " + type;
+        li.appendChild(dot);
 
         const span = document.createElement("span");
         span.innerHTML = text;
@@ -385,30 +822,29 @@
         areAllPrefsKnown() ? "good" : "neutral"
       );
 
-      if (state.snacks.length > 0) {
-        addStatus("<strong>Essen:</strong> " + state.snacks.join(", "), "good");
-      } else {
-        addStatus("<strong>Essen:</strong> noch nicht gekauft", "neutral");
-      }
-
-      if (state.deco.length > 0) {
-        addStatus("<strong>Deko:</strong> " + state.deco.join(" · "), "neutral");
-      } else {
-        addStatus("<strong>Deko:</strong> noch nicht gekauft", "neutral");
-      }
-
-      if (state.room) {
-        addStatus(
-          "<strong>Raum:</strong> " + state.room +
-          (state.roomOk ? " (passt 👍)" : " (nicht ideal)"),
-          state.roomOk ? "good" : "bad"
-        );
-      } else {
-        addStatus("<strong>Raum:</strong> noch nicht gewählt", "neutral");
-      }
+      addStatus(
+        state.snacks.length > 0
+          ? "<strong>Essen:</strong> " + state.snacks.join(", ")
+          : "<strong>Essen:</strong> noch nicht gekauft",
+        state.snacks.length > 0 ? "good" : "neutral"
+      );
 
       addStatus(
-        "<strong>Aufräumen:</strong> " + (state.cleaned ? "Zimmer ist sauber" : "noch nicht erledigt"),
+        state.deco.length > 0
+          ? "<strong>Deko:</strong> " + state.deco.join(" · ")
+          : "<strong>Deko:</strong> noch nicht gekauft",
+        state.deco.length > 0 ? "good" : "neutral"
+      );
+
+      addStatus(
+        state.room
+          ? "<strong>Raum:</strong> " + state.room + (state.roomOk ? " (passt!)" : " (nicht ideal)")
+          : "<strong>Raum:</strong> noch nicht gewählt",
+        !state.room ? "neutral" : (state.roomOk ? "good" : "bad")
+      );
+
+      addStatus(
+        "<strong>Aufräumen:</strong> " + (state.cleaned ? "erledigt" : "noch nicht erledigt"),
         state.cleaned ? "good" : "neutral"
       );
     }
@@ -433,39 +869,111 @@
              state.prefsKnown.Jakub;
     }
 
+    function showToast(title, text, isNegative = false) {
+      const toast = document.createElement("div");
+      toast.className = "toast " + (isNegative ? "negative" : "positive");
+      toast.innerHTML = `
+        <div class="toast-title">${isNegative ? "⚠️" : "🏆"} ${title}</div>
+        <div class="toast-text">${text}</div>
+      `;
+      toastLayer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3500);
+    }
+
+    function unlockAchievement(id) {
+      const item = achievements.find(a => a.id === id);
+      if (!item || item.unlocked) return;
+      item.unlocked = true;
+      renderAchievements();
+      showToast(
+        item.name + (item.negative ? " entdeckt!" : " freigeschaltet!"),
+        item.desc,
+        item.negative
+      );
+    }
+
+    function renderAchievements() {
+      achievementPositiveEl.innerHTML = "";
+      achievementNegativeEl.innerHTML = "";
+
+      achievements.forEach(a => {
+        const el = document.createElement("div");
+        el.className = "achievement" + (a.unlocked ? " unlocked" : "") + (a.negative ? " negative" : "");
+        el.innerHTML = `
+          <div class="achievement-icon">${a.icon}</div>
+          <div class="achievement-name">${a.name}</div>
+          <div class="achievement-desc">${a.desc}</div>
+        `;
+
+        if (a.negative) {
+          achievementNegativeEl.appendChild(el);
+        } else {
+          achievementPositiveEl.appendChild(el);
+        }
+      });
+    }
+
+    function checkAchievements() {
+      if (areAllPrefsKnown()) unlockAchievement("talked_all");
+      if (checkSnacksForEveryone()) unlockAchievement("food_master");
+      if (isCorrectFlagColors()) unlockAchievement("flag_master");
+      if (state.roomOk) unlockAchievement("room_master");
+      if (state.cleaned) unlockAchievement("clean_master");
+      if (computeScore() === 5) unlockAchievement("party_legend");
+
+      if (state.snacks.some(s => s.toLowerCase().includes("sauer"))) {
+        unlockAchievement("sour_trouble");
+      }
+      if (state.deco.length > 0 && !isCorrectFlagColors()) {
+        unlockAchievement("wrong_flag");
+      }
+      if (state.room && !state.roomOk) {
+        unlockAchievement("oops_room");
+      }
+      if (state.finished && !state.cleaned) {
+        unlockAchievement("mess_master");
+      }
+      if (state.trashThrown) {
+        unlockAchievement("trash_move");
+      }
+    }
+
     function hannahHelp() {
       let message = "";
 
       if (state.finished) {
-        message = "Hannah: Die Party läuft schon! Überlege, was gut geklappt hat und was du beim nächsten Mal besser planen kannst.";
+        message = "Hannah: Schau dir deine Punkte und Achievements an. Daran siehst du, was schon gut geklappt hat.";
       } else {
         switch (state.scene) {
           case "intro":
-            message = "Hannah: Heute ist ein besonderer Tag. Am Ende der Stunde feiern wir – plane gut und denk an alle.";
+            message = "Hannah: Heute zeigst du, wie gut du planen kannst. Denk an Essen, Deko, Raum und Aufräumen.";
             break;
           case "flur":
-            message = "Hannah: Sprich zuerst mit deinen Freunden. Sie haben unterschiedliche Vorlieben.";
+            message = "Hannah: Frag zuerst deine Freunde nach ihren Vorlieben.";
             break;
           case "prefs":
-            message = "Hannah: Hör genau zu. Jeder sagt dir, was er mag oder nicht mag. Schreib es dir auf.";
+            message = "Hannah: Hör genau zu. Jeder hat eine andere Vorliebe.";
             break;
           case "essen":
-            message = "Hannah: Denk an alle: genug Gemüse für Alijah, nichts Saures für Naksh, etwas Scharfes für Evan und Schokolade für Jakub.";
+            message = "Hannah: Denk an alle: Gemüse für Alijah, nichts Saures für Naksh, etwas Scharfes für Evan und Schokolade für Jakub.";
             break;
           case "deko":
-            message = "Hannah: Für eine Deutsch-Party sind die Farben der deutschen Flagge passend.";
+            message = "Hannah: Für die Party passen die Farben der deutschen Flagge.";
             break;
           case "raumwahl":
-            message = "Hannah: Wichtig sind genug Stühle, ein Tisch und Platz, damit alle bequem feiern können.";
+            message = "Hannah: Wichtig sind genug Stühle, ein Tisch und Platz für alle.";
             break;
           case "putzen":
-            message = "Hannah: Überlege, welche Hausarbeiten zum Aufräumen gehören – dann ist der Raum bereit für die Party.";
+            message = "Hannah: Wenn du Punkte willst, musst du wirklich etwas aufräumen.";
             break;
           case "finale":
-            message = "Hannah: Schau dir an, ob alle etwas Passendes zu essen haben, der Raum passt und ordentlich ist.";
+            message = "Hannah: Jetzt siehst du, wie gut deine Planung war.";
             break;
           default:
-            message = "Hannah: Lies die Optionen in Ruhe. Wähle, was für die Party am sinnvollsten ist.";
+            message = "Hannah: Lies genau und wähle klug.";
         }
       }
 
@@ -477,19 +985,20 @@
     function renderScene() {
       updateTime();
       updateStatus();
+      updateScore();
+      checkAchievements();
       clearChoices();
 
       switch (state.scene) {
         case "intro":
-          storyTitleEl.textContent = "Zu Hause – der Tag beginnt";
+          storyTitleEl.textContent = "Level 1 – Der Tag beginnt";
           storyEl.textContent =
             "Guten Morgen!\n\n" +
-            "Du wachst in deinem Zimmer auf. Das Zimmer ist klein, aber gemütlich. " +
-            "Neben dem Fenster steht dein Schreibtisch. Auf dem Schreibtisch liegt dein Deutschheft. " +
-            "Über dem Bett hängt ein Poster von deinen Freunden.\n\n" +
-            "Heute ist ein besonderer Tag: In der letzten Deutschstunde soll es eine kleine Party geben. " +
-            "Du hast die Aufgabe, die Party zu planen. Es soll Essen geben, passende Deko und ein gutes Klassenzimmer.\n\n" +
-            "Du nimmst deine Tasche, gehst aus dem Zimmer und fährst zur Schule.";
+            "Du wachst in deinem Zimmer auf. Das Zimmer ist gemütlich. Neben dem Fenster steht dein Schreibtisch. " +
+            "Auf dem Schreibtisch liegt dein Deutschheft.\n\n" +
+            "Heute ist ein besonderer Tag: In der letzten Deutschstunde soll es eine Party geben. " +
+            "Du hast die Aufgabe, alles zu planen.\n\n" +
+            "Es soll Essen geben, passende Deko, ein gutes Klassenzimmer und natürlich muss der Raum sauber sein.";
           addChoice("Zur Schule gehen", () => {
             state.scene = "flur";
             state.time = "Vormittag";
@@ -498,15 +1007,12 @@
           break;
 
         case "flur":
-          storyTitleEl.textContent = "In der Schule – im Flur";
+          storyTitleEl.textContent = "Level 2 – In der Schule";
           storyEl.textContent =
-            "Du stehst im Flur vor deinem Klassenzimmer. Viele Schülerinnen und Schüler laufen vorbei. " +
-            "Deine Deutschlehrerin Hannah geht an dir vorbei und lächelt.\n\n" +
-            "Hannah: \"Vergiss die Party heute nicht! Plane alles gut, damit alle Spaß haben.\"\n\n" +
-            "Du erinnerst dich an die Themen dieses Schuljahres: Kennenlernen, Familie und Freunde, Schule, Zu Hause, " +
-            "Zimmer und Möbel, Hausarbeit, Beschreibungen und natürlich Essen und Trinken.\n\n" +
+            "Du stehst im Flur vor deinem Klassenzimmer. Viele Schülerinnen und Schüler laufen vorbei.\n\n" +
+            "Hannah geht an dir vorbei und sagt: \"Vergiss die Party heute nicht! Plane alles gut, damit alle Spaß haben.\"\n\n" +
             "Deine Freunde Alijah, Naksh, Evan und Jakub sind schon im Klassenraum.";
-          addChoice("Ins Klassenzimmer gehen und mit den Freunden sprechen", () => {
+          addChoice("Ins Klassenzimmer gehen", () => {
             state.scene = "prefs";
             renderScene();
           });
@@ -517,14 +1023,13 @@
           break;
 
         case "lehrerin":
-          storyTitleEl.textContent = "Gespräch mit Hannah";
+          storyTitleEl.textContent = "Bonus-Tipp von Hannah";
           storyEl.textContent =
             "Du gehst zu Hannah.\n\n" +
             "Du: \"Hannah, hast du noch Tipps für die Party?\"\n" +
-            "Hannah: \"Frag deine Freunde nach ihren Vorlieben und achte darauf, dass es für alle etwas gibt. " +
-            "Wenn du unsicher bist, kannst du später meine Tipps lesen.\"\n\n" +
-            "Du nickst. Das hilft dir bei der Planung.";
-          addChoice("Zurück in den Flur gehen", () => {
+            "Hannah: \"Frag zuerst alle nach ihren Vorlieben und achte darauf, dass wirklich jeder etwas Passendes bekommt.\"\n\n" +
+            "Du nickst. Das ist ein guter Plan.";
+          addChoice("Zurück in den Flur", () => {
             state.scene = "flur";
             renderScene();
           });
@@ -556,31 +1061,30 @@
 
         default:
           storyTitleEl.textContent = "Fehler";
-          storyEl.textContent = "Fehler: Unbekannte Szene.";
+          storyEl.textContent = "Ups! Hier stimmt etwas nicht.";
       }
     }
 
     function renderPrefsScene() {
-      storyTitleEl.textContent = "Im Klassenzimmer – Freunde befragen";
+      storyTitleEl.textContent = "Mission – Freunde befragen";
 
       let text =
-        "Du setzt dich zu deinen Freunden. Du möchtest ihre Essensvorlieben kennenlernen, " +
-        "damit später jeder etwas Leckeres auf der Party bekommt.\n\n";
+        "Du setzt dich zu deinen Freunden. Du musst ihre Essensvorlieben herausfinden.\n\n";
 
       if (!state.prefsKnown.Alijah) {
-        text += "Alijah sitzt neben dem Fenster und knabbert an Karottensticks.\n";
+        text += "Alijah knabbert an Karottensticks.\n";
       }
       if (!state.prefsKnown.Naksh) {
-        text += "Naksh schaut aus dem Fenster und trinkt einen Saft.\n";
+        text += "Naksh trinkt einen Saft.\n";
       }
       if (!state.prefsKnown.Evan) {
         text += "Evan liest ein Buch über scharfe Rezepte.\n";
       }
       if (!state.prefsKnown.Jakub) {
-        text += "Jakub hat einen Schokoriegel im Federmäppchen versteckt.\n";
+        text += "Jakub hat einen Schokoriegel im Mäppchen versteckt.\n";
       }
 
-      storyEl.textContent = text + "\nWen fragst du zuerst?";
+      storyEl.textContent = text + "\nWen fragst du?";
       clearChoices();
 
       if (!state.prefsKnown.Alijah) {
@@ -588,13 +1092,11 @@
           state.prefsKnown.Alijah = true;
           storyTitleEl.textContent = "Gespräch mit Alijah";
           storyEl.textContent =
-            "Du: \"Alijah, was isst du gern auf einer Party?\"\n" +
-            "Alijah: \"Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. Kein Fleisch für mich!\"\n\n" +
+            "Du: „Alijah, was isst du gern auf einer Party?“\n" +
+            "Alijah: „Ich esse nur Gemüse. Ich mag Gemüse-Sticks, Salat, Tomaten und Gurken. Kein Fleisch für mich!“\n\n" +
             "Du notierst: Alijah isst nur Gemüse.";
           clearChoices();
-          addChoice("Weiter", () => {
-            renderPrefsScene();
-          });
+          addChoice("Weiter", renderPrefsScene);
         });
       }
 
@@ -603,14 +1105,11 @@
           state.prefsKnown.Naksh = true;
           storyTitleEl.textContent = "Gespräch mit Naksh";
           storyEl.textContent =
-            "Du: \"Naksh, was isst du gern?\"\n" +
-            "Naksh: \"Bitte nichts Saures. Ich mag keine sauren Gummibärchen und keinen sauren Saft. " +
-            "Süß oder mild ist okay.\"\n\n" +
+            "Du: „Naksh, was isst du gern?“\n" +
+            "Naksh: „Bitte nichts Saures. Ich mag keine sauren Gummibärchen und keinen sauren Saft.“\n\n" +
             "Du notierst: Naksh mag nichts Saures.";
           clearChoices();
-          addChoice("Weiter", () => {
-            renderPrefsScene();
-          });
+          addChoice("Weiter", renderPrefsScene);
         });
       }
 
@@ -619,13 +1118,11 @@
           state.prefsKnown.Evan = true;
           storyTitleEl.textContent = "Gespräch mit Evan";
           storyEl.textContent =
-            "Du: \"Evan, was soll es auf der Party geben?\"\n" +
-            "Evan: \"Ich mag Essen, das schön scharf ist! Chips mit Chili oder scharfe Soße sind super.\"\n\n" +
+            "Du: „Evan, was soll es auf der Party geben?“\n" +
+            "Evan: „Ich mag scharfes Essen! Chips mit Chili oder scharfe Soße sind super.“\n\n" +
             "Du notierst: Evan mag scharf.";
           clearChoices();
-          addChoice("Weiter", () => {
-            renderPrefsScene();
-          });
+          addChoice("Weiter", renderPrefsScene);
         });
       }
 
@@ -634,18 +1131,16 @@
           state.prefsKnown.Jakub = true;
           storyTitleEl.textContent = "Gespräch mit Jakub";
           storyEl.textContent =
-            "Du: \"Jakub, was ist dein Lieblingspartyessen?\"\n" +
-            "Jakub: \"Schokolade! Schokokekse, Schokoriegel, Schokokuchen … Hauptsache Schokolade.\"\n\n" +
+            "Du: „Jakub, was ist dein Lieblingspartyessen?“\n" +
+            "Jakub: „Schokolade! Hauptsache Schokolade.“\n\n" +
             "Du notierst: Jakub mag Schokolade.";
           clearChoices();
-          addChoice("Weiter", () => {
-            renderPrefsScene();
-          });
+          addChoice("Weiter", renderPrefsScene);
         });
       }
 
       if (areAllPrefsKnown()) {
-        addChoice("In die Pause gehen und Essen kaufen", () => {
+        addChoice("In der Pause Essen kaufen", () => {
           state.scene = "essen";
           state.time = "Große Pause";
           renderScene();
@@ -654,15 +1149,15 @@
     }
 
     function renderEssenScene() {
-      storyTitleEl.textContent = "Im Supermarkt – Essen kaufen";
+      storyTitleEl.textContent = "Mission – Essen kaufen";
       storyEl.textContent =
-        "Große Pause – Im Supermarkt neben der Schule.\n\n" +
-        "Du gehst mit einer kleinen Gruppe in den Supermarkt. Du erinnerst dich an die Vorlieben:\n" +
+        "Du gehst in den Supermarkt.\n\n" +
+        "Du erinnerst dich:\n" +
         "- Alijah isst nur Gemüse.\n" +
         "- Naksh mag nichts Saures.\n" +
         "- Evan mag scharf.\n" +
         "- Jakub mag Schokolade.\n\n" +
-        "Du siehst verschiedene Sachen im Regal:";
+        "Was kaufst du?";
 
       clearChoices();
 
@@ -696,25 +1191,19 @@
     }
 
     function checkSnacksForEveryone() {
-      // Alijah: nur Gemüse
-      let okAlijah = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
-      // Evan: scharf
-      let okEvan = state.snacks.some(s => s.includes("Chili") || s.toLowerCase().includes("scharf"));
-      // Naksh: nichts Saures
-      let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
-      // Jakub: Schokolade
-      let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
-
+      const okAlijah = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
+      const okEvan = state.snacks.some(s => s.includes("Chili") || s.toLowerCase().includes("scharf"));
+      const okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
+      const okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
       return okAlijah && okEvan && !okNakshBad && okJakub;
     }
 
     function renderDecoScene() {
-      storyTitleEl.textContent = "Dekogeschäft – Farben wählen";
+      storyTitleEl.textContent = "Mission – Deko wählen";
       storyEl.textContent =
-        "Du hast das Essen im Rucksack und gehst in ein kleines Dekogeschäft.\n\n" +
-        "Du überlegst, wie die Party aussehen soll. Es wäre schön, wenn man gleich sieht, dass es eine Deutsch-Party ist.\n" +
-        "Du möchtest Girlanden und Luftballons in passenden Farben kaufen.\n\n" +
-        "Welche Farbkombination wählst du?";
+        "Jetzt brauchst du Deko für die Party.\n\n" +
+        "Es wäre gut, wenn man sofort sieht, dass es eine Deutsch-Party ist.\n\n" +
+        "Welche Farben wählst du?";
 
       clearChoices();
 
@@ -726,8 +1215,7 @@
       ];
 
       farbenSets.forEach(set => {
-        const text = "Deko in " + set.join(" – ");
-        addChoice(text, () => {
+        addChoice("Deko in " + set.join(" – "), () => {
           state.deco = set;
           state.scene = "raumwahl";
           state.time = "Mittag";
@@ -743,17 +1231,13 @@
     }
 
     function renderRaumwahlScene() {
-      storyTitleEl.textContent = "Schule – ein Raum für die Party";
+      storyTitleEl.textContent = "Mission – Das richtige Klassenzimmer";
       storyEl.textContent =
-        "Nach dem Mittagessen suchst du ein gutes Klassenzimmer für die Party.\n\n" +
-        "Du überlegst, was für eine gute Party wichtig ist: genug Stühle für alle, ein Tisch für das Essen " +
-        "und genug Platz, damit alle bequem feiern können.\n\n" +
-        "Du siehst drei offene Räume:\n\n" +
-        "Raum A: In der Ecke steht ein Schrank. In der Mitte stehen drei Stühle und ein kleiner Tisch. " +
-        "Neben dem Fenster steht ein großes Regal.\n\n" +
-        "Raum B: Vor der Tafel stehen fünf Stühle und ein großer Tisch. Unter den Fenstern stehen Pflanzen. " +
-        "Neben der Tür steht ein Papierkorb.\n\n" +
-        "Raum C: In der Mitte liegt ein Teppich. Auf dem Teppich liegen viele Kissen. An der Wand hängt nur ein Poster.";
+        "Du suchst ein gutes Zimmer für die Party.\n\n" +
+        "Wichtig sind genug Stühle, ein Tisch für das Essen und genug Platz.\n\n" +
+        "Raum A: In der Mitte stehen drei Stühle und ein kleiner Tisch.\n\n" +
+        "Raum B: Vor der Tafel stehen fünf Stühle und ein großer Tisch.\n\n" +
+        "Raum C: Es gibt Kissen und einen Teppich, aber keinen Tisch.";
 
       clearChoices();
 
@@ -783,64 +1267,54 @@
     }
 
     function renderPutzenScene() {
-      storyTitleEl.textContent = "Aufräumen im Klassenzimmer";
+      storyTitleEl.textContent = "Mission – Aufräumen";
 
-      let text =
-        "Du bist im gewählten Raum: " + (state.room || "kein Raum") + ".\n\n" +
-        "Für die Party muss der Raum sauber sein. Du denkst an Hausarbeit: " +
-        "aufräumen, fegen, wischen, den Müll wegbringen.\n\n" +
-        "Was machst du als Nächstes?";
+      storyEl.textContent =
+        "Du bist jetzt in " + (state.room || "dem Raum") + ".\n\n" +
+        "Vor der Party muss alles sauber sein.\n\n" +
+        "Was machst du?";
 
-      storyEl.textContent = text;
       clearChoices();
 
       addChoice("Stühle und Tisch ordentlich hinstellen", () => {
         state.cleanSteps++;
-        storyTitleEl.textContent = "Stühle und Tisch ordnen";
+        storyTitleEl.textContent = "Gut gemacht!";
         storyEl.textContent =
-          "Du stellst alle Stühle ordentlich an den Tisch. Der Raum sieht schon viel besser aus.";
+          "Du stellst alles ordentlich hin. Der Raum sieht schon besser aus.";
         clearChoices();
-        addChoice("Weiter", () => {
-          renderPutzenScene();
-        });
+        addChoice("Weiter", renderPutzenScene);
       });
 
       addChoice("Den Boden fegen", () => {
         state.cleanSteps++;
-        storyTitleEl.textContent = "Den Boden fegen";
+        storyTitleEl.textContent = "Sauber!";
         storyEl.textContent =
-          "Du nimmst einen Besen und fegst den Boden. Jetzt liegt kein Papier mehr auf dem Boden.";
+          "Du fegst den Boden. Jetzt liegt kein Papier mehr herum.";
         clearChoices();
-        addChoice("Weiter", () => {
-          renderPutzenScene();
-        });
+        addChoice("Weiter", renderPutzenScene);
       });
 
       addChoice("Die Tafel sauber wischen", () => {
         state.cleanSteps++;
-        storyTitleEl.textContent = "Die Tafel wischen";
+        storyTitleEl.textContent = "Prima!";
         storyEl.textContent =
-          "Du wischst die Tafel. Jetzt ist sie sauber und bereit für eine bunte Überschrift.";
+          "Du wischst die Tafel. Jetzt sieht der Raum ordentlich aus.";
         clearChoices();
-        addChoice("Weiter", () => {
-          renderPutzenScene();
-        });
+        addChoice("Weiter", renderPutzenScene);
       });
 
       addChoice("Müll auf den Boden werfen", () => {
-        storyTitleEl.textContent = "Kein guter Plan";
+        state.trashThrown = true;
+        unlockAchievement("trash_move");
+        storyTitleEl.textContent = "Oops!";
         storyEl.textContent =
-          "Du wirfst Papier auf den Boden. Hannah schaut zufällig herein und schüttelt den Kopf:\n\n" +
-          "\"So wird das nichts. Sammle den Müll lieber wieder ein. Der Raum soll für die Party schön aussehen.\"\n\n" +
-          "Du sammelst den Müll wieder ein.";
+          "Hannah sieht dich und sagt:\n\n" +
+          "„So wird das nichts. Heb den Müll lieber wieder auf!“";
         clearChoices();
-        addChoice("Weiter", () => {
-          renderPutzenScene();
-        });
+        addChoice("Weiter", renderPutzenScene);
       });
 
-      addChoice("Der Raum ist sauber genug", () => {
-        // Nur sauber, wenn mindestens eine Aufräum-Aktion gemacht wurde
+      addChoice("Der Raum ist fertig", () => {
         state.cleaned = state.cleanSteps > 0;
         state.scene = "finale";
         state.time = "Ende des Schultages";
@@ -848,113 +1322,99 @@
       });
     }
 
-    function computeScore() {
-      let score = 0;
-      if (areAllPrefsKnown()) score++;           // alle Vorlieben geklärt
-      if (checkSnacksForEveryone()) score++;     // beim Essen alle berücksichtigt
-      if (isCorrectFlagColors()) score++;        // passende Deko-Farben
-      if (state.roomOk) score++;                 // guter Raum gewählt
-      if (state.cleaned) score++;                // Raum aufgeräumt
-      return score;
+    function gradeFromScore(score) {
+      switch (score) {
+        case 5: return { noteNumber: "1", noteText: "sehr gut" };
+        case 4: return { noteNumber: "2", noteText: "gut" };
+        case 3: return { noteNumber: "3", noteText: "befriedigend" };
+        case 2: return { noteNumber: "4", noteText: "ausreichend" };
+        case 1: return { noteNumber: "5", noteText: "mangelhaft" };
+        default: return { noteNumber: "6", noteText: "ungenügend" };
+      }
     }
 
-    function gradeFromScore(score) {
-      let noteNumber;
-      let noteText;
-      switch (score) {
-        case 5:
-          noteNumber = "1";
-          noteText = "sehr gut";
-          break;
-        case 4:
-          noteNumber = "2";
-          noteText = "gut";
-          break;
-        case 3:
-          noteNumber = "3";
-          noteText = "befriedigend";
-          break;
-        case 2:
-          noteNumber = "4";
-          noteText = "ausreichend";
-          break;
-        case 1:
-          noteNumber = "5";
-          noteText = "mangelhaft";
-          break;
-        default:
-          noteNumber = "6";
-          noteText = "ungenügend";
+    function launchConfetti() {
+      const colors = ["#ff6b6b", "#ffd93d", "#6c5ce7", "#56ccf2", "#2ecc71", "#ff66b3"];
+      for (let i = 0; i < 120; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (2.8 + Math.random() * 2.2) + "s";
+        piece.style.width = (8 + Math.random() * 8) + "px";
+        piece.style.height = (10 + Math.random() * 12) + "px";
+        piece.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 5500);
       }
-      return { noteNumber, noteText };
     }
 
     function renderFinaleScene() {
       state.finished = true;
-      storyTitleEl.textContent = "Die Party beginnt!";
-      let text =
-        "Letzte Deutschstunde – Die Party beginnt.\n\n" +
-        "Deine Klasse kommt in den Raum. ";
-
-      if (state.roomOk) {
-        text += "Zum Glück hast du einen Raum mit fünf Stühlen und einem Tisch gewählt. Alle können gut sitzen.\n\n";
-      } else {
-        text += "Der Raum ist nicht perfekt. Es fehlen Stühle oder der Tisch ist zu klein, aber ihr macht das Beste daraus.\n\n";
-      }
-
-      if (isCorrectFlagColors()) {
-        text += "Die Deko in Schwarz, Rot und Gelb sieht toll aus. Alle erkennen sofort die deutschen Farben.\n";
-      } else if (state.deco.length > 0) {
-        text += "Die Deko ist bunt, aber nicht typisch deutsch. Einige lachen darüber.\n";
-      } else {
-        text += "Es gibt leider keine Deko. Der Raum sieht etwas leer aus.\n";
-      }
-
-      if (state.snacks.length === 0) {
-        text += "Oh nein, es gibt gar kein Essen. Das ist eine sehr ruhige Party.\n\n";
-      } else if (checkSnacksForEveryone()) {
-        text +=
-          "Beim Essen hast du gut aufgepasst:\n" +
-          "- Für Alijah gibt es genug Gemüse.\n" +
-          "- Für Naksh gibt es nichts Saures.\n" +
-          "- Für Evan gibt es etwas Scharfes.\n" +
-          "- Für Jakub gibt es Schokolade.\n\n" +
-          "Alle sind zufrieden und bedanken sich bei dir.\n\n";
-      } else {
-        text +=
-          "Beim Essen ist nicht alles perfekt. Jemand ist nicht ganz zufrieden:\n";
-        const probleme = [];
-        let okAlijah = state.snacks.some(s => s.toLowerCase().includes("gemüse") || s.toLowerCase().includes("salat"));
-        let okEvan = state.snacks.some(s => s.includes("Chili") || s.toLowerCase().includes("scharf"));
-        let okNakshBad = state.snacks.some(s => s.toLowerCase().includes("sauer"));
-        let okJakub = state.snacks.some(s => s.toLowerCase().includes("schoko"));
-
-        if (!okAlijah) probleme.push("Alijah – es gibt zu wenig Gemüse.");
-        if (!okEvan) probleme.push("Evan – es gibt nichts Scharfes.");
-        if (okNakshBad) probleme.push("Naksh – es gibt etwas Saures.");
-        if (!okJakub) probleme.push("Jakub – es gibt nichts mit Schokolade.");
-
-        text += "- " + probleme.join("\n- ") + "\n\n";
-        text += "Aber ihr lacht darüber und plant schon die nächste Party besser.\n\n";
-      }
+      checkAchievements();
 
       const score = computeScore();
       const grade = gradeFromScore(score);
 
+      if (score === 5) {
+        unlockAchievement("party_legend");
+      }
+
+      storyTitleEl.textContent = "Finale – Die Party beginnt!";
+      let text =
+        "Die letzte Deutschstunde beginnt und die Party startet.\n\n";
+
+      if (state.roomOk) {
+        text += "Du hast einen guten Raum gewählt. Alle haben genug Platz.\n\n";
+      } else {
+        text += "Der Raum ist nicht perfekt, aber ihr versucht trotzdem das Beste daraus zu machen.\n\n";
+      }
+
+      if (isCorrectFlagColors()) {
+        text += "Die Deko in Schwarz, Rot und Gelb passt super.\n";
+      } else {
+        text += "Die Deko ist bunt, aber nicht ganz passend.\n";
+      }
+
+      if (checkSnacksForEveryone()) {
+        text +=
+          "Beim Essen hast du gut aufgepasst:\n" +
+          "- Alijah hat genug Gemüse.\n" +
+          "- Naksh bekommt nichts Saures.\n" +
+          "- Evan findet etwas Scharfes.\n" +
+          "- Jakub bekommt Schokolade.\n\n";
+      } else {
+        text +=
+          "Beim Essen ist nicht alles perfekt. Nicht alle finden genau das, was sie mögen.\n\n";
+      }
+
+      if (state.cleaned) {
+        text += "Außerdem ist der Raum ordentlich und sauber.\n\n";
+      } else {
+        text += "Der Raum ist leider nicht richtig aufgeräumt.\n\n";
+      }
+
       text +=
-        "Am Ende der Stunde spricht Hannah mit dir über die Planung.\n" +
-        "\"Du hast " + score + " von 5 wichtigen Punkten gut erledigt. " +
-        "Du bekommst die Note " + grade.noteNumber + " (" + grade.noteText + ") für deine Partyplanung.\"\n\n" +
-        "Sie lächelt: \"Du hast in diesem Jahr viel gelernt: Freunde beschreiben, Zimmer und Möbel, Hausarbeit " +
-        "und natürlich Essen und Trinken.\"";
+        "Am Ende spricht Hannah mit dir.\n" +
+        "„Du hast " + score + " von 5 Punkten geschafft. Das ist die Note " +
+        grade.noteNumber + " (" + grade.noteText + ").“";
 
-      storyEl.textContent = text;
+      const gradeBadge = `
+        <div class="big-grade"><span class="sparkle">✨</span> Note ${grade.noteNumber} – ${grade.noteText}</div>
+      `;
+
+      storyEl.innerHTML = text.replace(/\n/g, "<br>") + gradeBadge +
+        "<br>Hannah lächelt: „Du hast in diesem Jahr wirklich viel gelernt.“";
+
       clearChoices();
-
       addChoice("Noch einmal spielen", () => {
         resetGame();
         renderScene();
       });
+
+      if (score >= 4) {
+        launchConfetti();
+      }
     }
 
     function resetGame() {
@@ -968,10 +1428,16 @@
       state.cleaned = false;
       state.finished = false;
       state.cleanSteps = 0;
+      state.trashThrown = false;
+
+      achievements.forEach(a => a.unlocked = false);
+
       hannahEl.textContent = "Wenn du unsicher bist, kannst du dir hier Tipps von Hannah holen.";
+      renderAchievements();
+      updateScore();
     }
 
-    // Spiel starten
+    renderAchievements();
     renderScene();
   </script>
 </body>
